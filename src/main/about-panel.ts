@@ -10,23 +10,5 @@ import contributorsJSON from '../../static/contributors.json';
  * Sets Fiddle's About panel options on Linux and macOS
  */
 export function setupAboutPanel(): void {
-  const contributors: Array<string> = [];
-  contributorsJSON.forEach((userData: Contributor) => {
-    if (userData.name !== null) {
-      contributors.push(userData.name);
-    }
-  });
-
-  const iconPath = path.resolve(__dirname, '../assets/icons/fiddle.png');
-
-  app.setAboutPanelOptions({
-    applicationName: 'Electron Fiddle',
-    applicationVersion: app.getVersion(),
-    authors: contributors,
-    copyright: '© Electron Authors',
-    credits: 'https://github.com/electron/fiddle/graphs/contributors',
-    iconPath,
-    version: process.versions.electron,
-    website: 'https://electronjs.org/fiddle',
-  });
+    throw new Error("STUB");
 }

@@ -106,11 +106,5 @@ export function getTemplate(version: string): Promise<EditorValues> {
 }
 
 export async function setupContent() {
-  ipcMainManager.handle(
-    IpcEvents.GET_TEMPLATE,
-    (_: IpcMainInvokeEvent, version: string) => getTemplate(version),
-  );
-  ipcMainManager.handle(IpcEvents.GET_TEST_TEMPLATE, (_: IpcMainInvokeEvent) =>
-    getTestTemplate(),
-  );
+    throw new Error("STUB");
 }

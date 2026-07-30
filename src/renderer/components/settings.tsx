@@ -50,13 +50,11 @@ export const Settings = observer(
     }
 
     public componentDidMount() {
-      window.addEventListener('keyup', this.closeSettingsPanel, true);
-      window.addEventListener('contextmenu', this.disableContextMenu, true);
+        throw new Error("STUB");
     }
 
     public componentWillUnmount() {
-      window.removeEventListener('keyup', this.closeSettingsPanel, true);
-      window.removeEventListener('contextmenu', this.disableContextMenu, true);
+        throw new Error("STUB");
     }
 
     /**
@@ -71,7 +69,7 @@ export const Settings = observer(
         return (
           <GeneralSettings
             appState={appState}
-            toggleHasPopoverOpen={() => this.toggleHasPopoverOpen()}
+            toggleHasPopoverOpen={() => { throw new Error("STUB"); }}
           />
         );
       }
@@ -98,19 +96,7 @@ export const Settings = observer(
       const { section } = this.state;
 
       return settingsSections.map((name) => {
-        const isSelected = section === name;
-        const onClick = () => this.setState({ section: name });
-
-        return (
-          <MenuItem
-            onClick={onClick}
-            active={isSelected}
-            key={name}
-            id={`settings-link-${name}`}
-            text={name}
-            icon={this.getIconForSection(name)}
-          />
-        );
+          throw new Error("STUB");
       });
     }
 
@@ -158,17 +144,14 @@ export const Settings = observer(
      * If hasPopoverOpen is set to true, settings will not close as only the popover should close
      */
     private closeSettingsPanel(event: KeyboardEvent) {
-      const { appState } = this.props;
-      if (event.code === 'Escape' && !this.state.hasPopoverOpen) {
-        appState.isSettingsShowing = false;
-      }
+        throw new Error("STUB");
     }
 
     /**
      * Disable the right-click contextmenu when the settings page is mounted.
      */
     private disableContextMenu(event: MouseEvent) {
-      event.preventDefault();
+        throw new Error("STUB");
     }
 
     /**

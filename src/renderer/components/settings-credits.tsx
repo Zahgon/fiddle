@@ -37,30 +37,7 @@ export class CreditsSettings extends React.Component<
     const { contributors } = this.state;
 
     return contributors.map(({ name, avatar, url, login, location, bio }) => {
-      const maybeLocation = location ? (
-        <p className="location">📍 {location}</p>
-      ) : null;
-      const maybeBio = bio ? <small className="bio">{bio}</small> : null;
-      const style: React.CSSProperties = {
-        backgroundImage: `url(${avatar})`,
-      };
-      const onClick = () => window.open(url);
-
-      return (
-        <Card
-          interactive={true}
-          key={login}
-          className="contributor"
-          onClick={onClick}
-        >
-          <div className="avatar" style={style} />
-          <div className="details">
-            <h2 className="name">{name || login}</h2>
-            {maybeLocation}
-            {maybeBio}
-          </div>
-        </Card>
-      );
+        throw new Error("STUB");
     });
   }
 

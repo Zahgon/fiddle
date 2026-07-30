@@ -8,9 +8,7 @@ import { isDevMode } from './utils/devmode';
  * tasks that we only want to do in this case.
  */
 export async function onFirstRunMaybe() {
-  if (isFirstRun()) {
-    await promptMoveToApplicationsFolder();
-  }
+    throw new Error("STUB");
 }
 
 /**
@@ -18,17 +16,5 @@ export async function onFirstRunMaybe() {
  * applications folder.
  */
 async function promptMoveToApplicationsFolder(): Promise<void> {
-  if (process.platform !== 'darwin') return;
-  if (isDevMode() || app.isInApplicationsFolder()) return;
-
-  const { response } = await dialog.showMessageBox({
-    type: 'question',
-    buttons: ['Move to Applications Folder', 'Do Not Move'],
-    defaultId: 0,
-    message: 'Move to Applications Folder?',
-  });
-
-  if (response === 0) {
-    app.moveToApplicationsFolder();
-  }
+    throw new Error("STUB");
 }

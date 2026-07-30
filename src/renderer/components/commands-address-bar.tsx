@@ -24,25 +24,7 @@ interface AddressBarState {
 export const AddressBar = observer(
   class AddressBar extends React.Component<AddressBarProps, AddressBarState> {
     constructor(props: AddressBarProps) {
-      super(props);
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleChange = this.handleChange.bind(this);
-      this.handleBlur = this.handleBlur.bind(this);
-      this.submit = this.submit.bind(this);
-
-      const { gistId } = this.props.appState;
-      const value = urlFromId(gistId);
-
-      const { remoteLoader } = window.app;
-
-      this.state = {
-        value,
-        loaders: {
-          gist: remoteLoader.loadFiddleFromGist.bind(remoteLoader),
-          example:
-            remoteLoader.loadFiddleFromElectronExample.bind(remoteLoader),
-        },
-      };
+        throw new Error("STUB");
     }
 
     /**
@@ -50,8 +32,7 @@ export const AddressBar = observer(
      * URL was entered.
      */
     private handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
-      event.preventDefault();
-      this.submit();
+        throw new Error("STUB");
     }
 
     /**
@@ -70,37 +51,22 @@ export const AddressBar = observer(
      * Once the component mounts, we'll subscribe to gistId changes
      */
     public componentDidMount() {
-      const { appState } = this.props;
-      const { loaders } = this.state;
-      reaction(
-        () => appState.gistId,
-        (gistId?: string) => this.setState({ value: urlFromId(gistId) }),
-      );
-      window.ElectronFiddle.addEventListener('load-gist', loaders.gist);
-      window.ElectronFiddle.addEventListener('load-example', loaders.example);
+        throw new Error("STUB");
     }
 
     public componentWillUnmount() {
-      window.ElectronFiddle.removeAllListeners('load-gist');
-      window.ElectronFiddle.removeAllListeners('load-example');
+        throw new Error("STUB");
     }
 
     /**
      * Handle the change event, which usually just updates the address bar's value
      */
     private handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ value: event.target.value });
+        throw new Error("STUB");
     }
 
     private handleBlur(event: React.FocusEvent<HTMLInputElement>) {
-      const { gistId } = this.props.appState;
-      const url = urlFromId(gistId);
-
-      const shouldResetURL =
-        url === event.target.value || event.target.value === '';
-      if (url && shouldResetURL) {
-        this.setState({ value: url });
-      }
+        throw new Error("STUB");
     }
 
     private renderLoadButton(isValueCorrect: boolean): JSX.Element {

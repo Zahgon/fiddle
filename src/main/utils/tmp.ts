@@ -34,9 +34,5 @@ export function setGracefulCleanup(): void {
 }
 
 process.addListener('exit', () => {
-  if (_gracefulCleanup) {
-    for (const tempPath of _pathsToCleanup) {
-      fs.rmSync(tempPath, { recursive: true, force: true });
-    }
-  }
+    throw new Error("STUB");
 });

@@ -16,65 +16,25 @@ import {
 
 export class RemoteLoader {
   constructor(private readonly appState: AppState) {
-    for (const name of [
-      'fetchExampleAndLoad',
-      'fetchGistAndLoad',
-      'handleLoadingFailed',
-      'handleLoadingSuccess',
-      'loadFiddleFromElectronExample',
-      'loadFiddleFromGist',
-      'setElectronVersion',
-      'verifyReleaseChannelEnabled',
-      'verifyRemoteLoad',
-    ] as const) {
-      this[name] = this[name].bind(this) as any;
-    }
+      throw new Error("STUB");
   }
 
   public async loadFiddleFromElectronExample(exampleInfo: {
     path: string;
     tag: string;
   }) {
-    console.log(`Loading fiddle from Electron example`, exampleInfo);
-    const { path, tag } = exampleInfo;
-    const prettyName = path.replace('docs/fiddles/', '');
-    const ok = await this.verifyRemoteLoad(
-      `'${prettyName}' example from the Electron docs for version ${tag}`,
-    );
-    if (!ok) return;
-
-    this.fetchExampleAndLoad(tag, path);
+      throw new Error("STUB");
   }
 
   public async loadFiddleFromGist(gistInfo: { id: string }) {
-    const { id } = gistInfo;
-    const ok = await this.verifyRemoteLoad(`gist`);
-    if (!ok) return;
-
-    this.fetchGistAndLoad(id);
+      throw new Error("STUB");
   }
 
   public async fetchExampleAndLoad(
     tag: string,
     path: string,
   ): Promise<boolean> {
-    try {
-      const index = tag.search(/\d/);
-      const version = tag.substring(index);
-
-      if (!semver.valid(version)) {
-        throw new Error('Could not determine Electron version for example');
-      }
-
-      const ok = await this.setElectronVersion(version);
-      if (!ok) return false;
-
-      const values = await window.ElectronFiddle.fetchExample(tag, path);
-
-      return this.handleLoadingSuccess(values, '');
-    } catch (error: any) {
-      return this.handleLoadingFailed(error);
-    }
+      throw new Error("STUB");
   }
 
   public async getGistRevisions(gistId: string): Promise<GistRevision[]> {
@@ -116,7 +76,7 @@ export class RemoteLoader {
           // If the gist specifies an Electron version, we want to tell Fiddle to run
           // it with that version by default.
           const electronDeps = Object.keys(deps).filter((d) =>
-            ['electron-nightly', 'electron'].includes(d),
+            { throw new Error("STUB"); },
           );
           for (const dep of electronDeps) {
             // Strip off semver range prefixes, e.g:
@@ -224,11 +184,7 @@ export class RemoteLoader {
   }
 
   public confirmAddFile = (filename: string): Promise<boolean> => {
-    return this.appState.showConfirmDialog({
-      cancel: 'Skip',
-      label: `Do you want to add "${filename}"?`,
-      ok: 'Add',
-    });
+      throw new Error("STUB");
   };
 
   /**
@@ -237,10 +193,7 @@ export class RemoteLoader {
    * @param what - What are we loading from (gist, example, etc.)
    */
   public verifyRemoteLoad(what: string): Promise<boolean> {
-    return this.appState.showConfirmDialog({
-      label: `Are you sure you want to load this ${what}? Only load and run it if you trust the source.`,
-      ok: 'Load',
-    });
+      throw new Error("STUB");
   }
 
   public verifyReleaseChannelEnabled(channel: string): Promise<boolean> {

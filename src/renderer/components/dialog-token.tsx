@@ -54,31 +54,7 @@ export const TokenDialog = observer(
      * GitHub, and verifies that the required scopes are present.
      */
     public async onSubmitToken(): Promise<void> {
-      if (!this.state.tokenInput) return;
-      this.setState({ verifying: true, error: false, errorMessage: undefined });
-
-      const result = await window.ElectronFiddle.gitHubSignIn(
-        this.state.tokenInput,
-      );
-
-      if (!result.success) {
-        console.warn(`Authenticating against GitHub failed`, result.error);
-        this.setState({
-          verifying: false,
-          error: true,
-          errorMessage: result.error,
-        });
-        this.props.appState.gitHubLogin = null;
-        return;
-      }
-
-      // Token is valid and has required scopes. The token itself stays in
-      // the main process; the renderer only tracks the login as a "signed
-      // in?" signal.
-      this.props.appState.gitHubLogin = result.login ?? null;
-
-      this.setState({ verifying: false, error: false });
-      this.props.appState.isTokenDialogShowing = false;
+        throw new Error("STUB");
     }
 
     /**
@@ -105,7 +81,7 @@ export const TokenDialog = observer(
      * Opens GitHub's page for token generation
      */
     public openGenerateTokenExternal() {
-      window.open(GENERATE_TOKEN_URL);
+        throw new Error("STUB");
     }
 
     /**
@@ -113,51 +89,22 @@ export const TokenDialog = observer(
      * Maybe there's already something token-like there!
      */
     public async onTokenInputFocused() {
-      const text = ((await navigator.clipboard.readText()) || '').trim();
-
-      if (GITHUB_TOKEN_PATTERN.test(text)) {
-        this.setState({ tokenInput: text });
-      }
+        throw new Error("STUB");
     }
 
     /**
      * Handle the change event, which usually just updates the address bar's value
      */
     public handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ tokenInput: event.target.value });
+        throw new Error("STUB");
     }
 
     get buttons() {
-      const canSubmit = !!this.state.tokenInput;
-
-      return [
-        <Button
-          key="done"
-          disabled={!canSubmit}
-          onClick={this.onSubmitToken}
-          loading={this.state.verifying}
-          text="Done"
-          icon="log-in"
-        />,
-        <Button
-          key="cancel"
-          text="Cancel"
-          icon="log-out"
-          onClick={this.onClose}
-        />,
-      ];
+        throw new Error("STUB");
     }
 
     get invalidWarning() {
-      const message =
-        this.state.errorMessage ||
-        'Please provide a valid GitHub Personal Access Token';
-      return (
-        <>
-          <Callout intent={Intent.DANGER}>{message}</Callout>
-          <br />
-        </>
-      );
+        throw new Error("STUB");
     }
 
     public render() {

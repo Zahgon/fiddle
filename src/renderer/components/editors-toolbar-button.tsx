@@ -26,7 +26,7 @@ abstract class ToolbarButton extends React.PureComponent<ToolbarButtonProps> {
   public render() {
     return (
       <MosaicContext.Consumer>
-        {({ mosaicActions }) => this.createButton(mosaicActions)}
+        {({ mosaicActions }) => { throw new Error("STUB"); }}
       </MosaicContext.Consumer>
     );
   }
@@ -45,7 +45,7 @@ export class MaximizeButton extends ToolbarButton {
    */
   public createButton(mosaicActions: MosaicRootActions<any>) {
     const onClick = () => {
-      mosaicActions.expand(this.context.mosaicWindowActions.getPath());
+        throw new Error("STUB");
     };
 
     return <Button icon="maximize" className="bp3-small" onClick={onClick} />;
@@ -57,7 +57,7 @@ export class RemoveButton extends ToolbarButton {
    * Create a button that can remove this panel
    */
   public createButton(_mosaicActions: MosaicRootActions<any>) {
-    const onClick = () => this.props.appState.editorMosaic.hide(this.props.id);
+    const onClick = () => { throw new Error("STUB"); };
 
     return <Button icon="cross" className="bp3-small" onClick={onClick} />;
   }

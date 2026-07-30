@@ -30,19 +30,11 @@ export const SidebarPackageManager = observer(
     }
 
     public componentDidMount() {
-      autorun(async () => {
-        await this.refreshVersionsCache();
-        this.coerceInvalidVersionNumbers();
-      });
+        throw new Error("STUB");
     }
 
     public addModuleToFiddle = (item: Hit<NPMSearchResult>) => {
-      const { appState } = this.props;
-      appState.modules.set(item.name, item.version);
-      // copy state so react can re-render
-      this.state.versionsCache.set(item.name, Object.keys(item.versions));
-      const newCache = new Map(this.state.versionsCache);
-      this.setState({ suggestions: [], versionsCache: newCache });
+        throw new Error("STUB");
     };
 
     public render() {
@@ -51,36 +43,13 @@ export const SidebarPackageManager = observer(
           <h5>Modules</h5>
           <Suggest
             fill={true}
-            inputValueRenderer={() => ''}
+            inputValueRenderer={() => { throw new Error("STUB"); }}
             items={this.state.suggestions}
-            itemRenderer={(item, { modifiers, handleClick }) => (
-              <MenuItem
-                active={modifiers.active}
-                key={item.name}
-                text={
-                  <span
-                    className="package-manager-result"
-                    dangerouslySetInnerHTML={{
-                      __html: item._highlightResult?.name?.value ?? '',
-                    }}
-                  />
-                }
-                onClick={handleClick}
-              />
-            )}
+            itemRenderer={(item, { modifiers, handleClick }) => { throw new Error("STUB"); }}
             noResults={<em>Search for modules here...</em>}
             onItemSelect={this.addModuleToFiddle}
             onQueryChange={pDebounce(async (query) => {
-              if (query !== '') {
-                const { hits } = await npmSearch.search(query);
-                this.setState({
-                  suggestions: hits,
-                });
-              } else {
-                this.setState({
-                  suggestions: [],
-                });
-              }
+                throw new Error("STUB");
             }, 200)}
             popoverProps={{ minimal: true, usePortal: false, fill: true }}
             resetOnClose={false}
@@ -109,18 +78,16 @@ export const SidebarPackageManager = observer(
                 name={pkg}
                 value={activeVersion}
                 onChange={({ target }) =>
-                  appState.modules.set(target.name, target.value)
+                  { throw new Error("STUB"); }
                 }
               >
-                {this.state.versionsCache.get(pkg)?.map((version) => (
-                  <option key={version}>{version}</option>
-                ))}
+                {this.state.versionsCache.get(pkg)?.map((version) => { throw new Error("STUB"); })}
               </select>
 
               <Button
                 minimal
                 icon="remove"
-                onClick={() => appState.modules.delete(pkg)}
+                onClick={() => { throw new Error("STUB"); }}
               />
             </div>
           ),

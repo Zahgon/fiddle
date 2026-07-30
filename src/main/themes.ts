@@ -54,7 +54,7 @@ export async function createThemeFile(
 ): Promise<LoadedFiddleTheme> {
   // Filter out file and css keys if they exist
   theme = Object.fromEntries(
-    Object.entries(theme).filter(([key]) => !['file', 'css'].includes(key)),
+    Object.entries(theme).filter(([key]) => { throw new Error("STUB"); }),
   ) as FiddleTheme;
 
   name = name || namor.generate({ words: 2 });
@@ -124,35 +124,5 @@ export async function openThemeFolder() {
 }
 
 export function setupThemes() {
-  ipcMainManager.handle(
-    IpcEvents.READ_THEME_FILE,
-    async (_: IpcMainInvokeEvent, name: string) => {
-      const theme = await readThemeFile(name);
-      // Hand the loaded theme to every isolated run-button OOPIF
-      // so it can cache it for later — this keeps the renderer off
-      // the CSS path while still letting the iframe apply by name.
-      if (theme) {
-        for (const window of BrowserWindow.getAllWindows()) {
-          const frame = getIsolatedRunButtonFrame(window.webContents);
-          if (frame) frame.send(IpcEvents.THEME_LOADED, theme);
-        }
-      }
-      return theme;
-    },
-  );
-  ipcMainManager.handle(
-    IpcEvents.GET_AVAILABLE_THEMES,
-    (_: IpcMainInvokeEvent) => getAvailableThemes(),
-  );
-  ipcMainManager.handle(
-    IpcEvents.CREATE_THEME_FILE,
-    (_: IpcMainInvokeEvent, newTheme: FiddleTheme, name?: string) =>
-      createThemeFile(newTheme, name),
-  );
-  ipcMainManager.handle(IpcEvents.OPEN_THEME_FOLDER, (_: IpcMainInvokeEvent) =>
-    openThemeFolder(),
-  );
-  ipcMainManager.on(IpcEvents.GET_THEME_PATH, (event) => {
-    event.returnValue = THEMES_PATH;
-  });
+    throw new Error("STUB");
 }

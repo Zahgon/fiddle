@@ -17,12 +17,7 @@ class NPMSearch {
   private index: SearchIndex;
   private searchCache: Map<string, SearchResponse<NPMSearchResult>>;
   constructor() {
-    const client = algoliasearch(
-      'OFCNCOG2CU',
-      '4efa2042cf4dba11be6e96e5c394e1a4',
-    );
-    this.index = client.initIndex('npm-search');
-    this.searchCache = new Map();
+      throw new Error("STUB");
   }
 
   /**

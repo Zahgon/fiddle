@@ -11,15 +11,5 @@ type RenderNonIdealStateProps = {
 export function RenderNonIdealState({
   editorMosaic,
 }: RenderNonIdealStateProps) {
-  const resolveButton = (
-    <Button text="Reset editors" onClick={() => editorMosaic.resetLayout()} />
-  );
-
-  return (
-    <NonIdealState
-      action={resolveButton}
-      icon="applications"
-      description="You have closed all editors. You can open them again with the button below or in the sidebar menu!"
-    />
-  );
+    throw new Error("STUB");
 }

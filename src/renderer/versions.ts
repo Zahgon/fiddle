@@ -14,37 +14,14 @@ import {
  * Returns true if any legacy local versions were found and discarded, else false.
  */
 export function discardLocalVersionsFromLocalStorage(): boolean {
-  const raw = window.localStorage.getItem(GlobalSetting.localVersion);
-  if (!raw) return false;
-
-  try {
-    const versions: Array<Version> = JSON.parse(raw);
-    if (Array.isArray(versions) && versions.length !== 0) {
-      return true;
-    }
-  } catch {
-    // We tried our best, if something is corrupt just remove and move on
-  } finally {
-    window.localStorage.removeItem(GlobalSetting.localVersion);
-  }
-
-  return false;
+    throw new Error("STUB");
 }
 
 /**
  * Returns a sensible default version string.
  */
 export function getDefaultVersion(versions: RunnableVersion[]): string {
-  const key = localStorage.getItem(WindowSpecificSetting.version);
-  if (key && versions.some(({ version }) => version === key)) {
-    return key;
-  }
-
-  const latestStable = window.ElectronFiddle.getLatestStable();
-  if (latestStable) return latestStable.version;
-
-  // how do we not have a stable version listed?
-  throw new Error('Corrupted version data');
+    throw new Error("STUB");
 }
 
 /**
@@ -87,7 +64,7 @@ export function makeRunnable(ver: Version): RunnableVersion {
  */
 export function getElectronVersions(): Array<RunnableVersion> {
   const versions = [...getReleasedVersions(), ...getLocalVersions()];
-  return versions.map((ver) => makeRunnable(ver));
+  return versions.map((ver) => { throw new Error("STUB"); });
 }
 
 /**

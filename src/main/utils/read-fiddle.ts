@@ -21,19 +21,11 @@ export async function readFiddle(
     // https://github.com/isaacs/node-graceful-fs/issues/223
     const files = await fs.readdir(folder, { encoding: 'utf8' });
     const names = files.filter((f) => {
-      if (f === 'package-lock.json') {
-        return false;
-      }
-
-      if (f === PACKAGE_NAME) {
-        return includePackageJson;
-      }
-
-      return isSupportedFile(f);
+        throw new Error("STUB");
     });
 
     const values = await Promise.allSettled(
-      names.map((name) => fs.readFile(path.join(folder, name), 'utf8')),
+      names.map((name) => { throw new Error("STUB"); }),
     );
 
     for (let i = 0; i < names.length; ++i) {

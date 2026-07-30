@@ -67,8 +67,7 @@ export const GitHubSettings = observer(
     public handlePublishGistAsRevisionChange(
       event: React.FormEvent<HTMLInputElement>,
     ) {
-      const { checked } = event.currentTarget;
-      this.props.appState.isPublishingGistAsRevision = checked;
+        throw new Error("STUB");
     }
 
     public render() {
@@ -101,7 +100,7 @@ export const GitHubSettings = observer(
      * Simply shows the GitHub Token dialog.
      */
     private signIn() {
-      this.props.appState.isTokenDialogShowing = true;
+        throw new Error("STUB");
     }
   },
 );

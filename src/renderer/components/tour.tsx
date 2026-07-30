@@ -49,12 +49,7 @@ export class Tour extends React.Component<TourProps, TourState> {
    * Handles a resize of the window.
    */
   public onResize() {
-    if (!this.resizeHandle) {
-      this.resizeHandle = window.setTimeout(() => {
-        this.forceUpdate();
-        this.resizeHandle = 0;
-      }, 100);
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -62,30 +57,25 @@ export class Tour extends React.Component<TourProps, TourState> {
    * event and move to the first step of the tour.
    */
   public componentDidMount() {
-    this.advance();
-
-    window.addEventListener('resize', this.onResize);
+      throw new Error("STUB");
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
+      throw new Error("STUB");
   }
 
   /**
    * Moves the tour to the next step
    */
   public advance() {
-    const { done, value } = this.state.tour.next();
-    const step = done ? null : value[0];
-
-    this.setState({ step, i: this.state.i + 1 });
+      throw new Error("STUB");
   }
 
   /**
    * Stops the tour
    */
   public stop() {
-    this.props.onStop();
+      throw new Error("STUB");
   }
 
   public render() {

@@ -8,23 +8,7 @@ import { shellEnv } from 'shell-env';
  * so that we can call `npm`.
  */
 export const maybeFixPath = (() => {
-  // Singleton: We don't want to do this more than once.
-  let _shellPathCalled = false;
-
-  return async (): Promise<void> => {
-    if (_shellPathCalled) {
-      return;
-    }
-
-    if (process.platform !== 'win32') {
-      const { PATH } = await shellEnv();
-      if (PATH) {
-        process.env.PATH = PATH;
-      }
-    }
-
-    _shellPathCalled = true;
-  };
+    throw new Error("STUB");
 })();
 
 /**

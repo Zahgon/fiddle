@@ -34,13 +34,11 @@ export const MirrorSettings = observer(
     }
 
     private changeSourceType(e: FormEvent<HTMLInputElement>) {
-      this.props.appState.electronMirror.sourceType = (
-        e.target as HTMLInputElement
-      ).value as Sources;
+        throw new Error("STUB");
     }
 
     private get notCustomSource() {
-      return this.props.appState.electronMirror.sourceType !== 'CUSTOM';
+        throw new Error("STUB");
     }
 
     public render() {
@@ -65,14 +63,14 @@ export const MirrorSettings = observer(
               value={sources[sourceType].electronMirror}
               disabled={this.notCustomSource}
               onChange={(e) => {
-                this.modifyMirror(false, e.target.value);
+                  throw new Error("STUB");
               }}
             />
             <InputGroup
               value={sources[sourceType].electronNightlyMirror}
               disabled={this.notCustomSource}
               onChange={(e) => {
-                this.modifyMirror(true, e.target.value);
+                  throw new Error("STUB");
               }}
             />
           </Callout>

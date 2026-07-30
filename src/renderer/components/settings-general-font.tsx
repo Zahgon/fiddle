@@ -70,7 +70,7 @@ export const FontSettings = observer(
                 id="font-family"
                 value={fontFamily}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleSetFontFamily(e)
+                  { throw new Error("STUB"); }
                 }
               />
             </FormGroup>
@@ -79,11 +79,11 @@ export const FontSettings = observer(
                 id="font-size"
                 value={`${fontSize || ''}`}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleSetFontSize(e)
+                  { throw new Error("STUB"); }
                 }
               />
               <Button
-                onClick={() => window.ElectronFiddle.reloadWindows()}
+                onClick={() => { throw new Error("STUB"); }}
                 icon="repeat"
                 text="Reload Window"
               />

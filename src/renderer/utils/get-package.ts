@@ -8,7 +8,7 @@ export const DEFAULT_OPTIONS = {
 };
 
 export function getForgeVersion(): string {
-  return fiddlePackageJSON.devDependencies['@electron-forge/cli'];
+    throw new Error("STUB");
 }
 
 /**

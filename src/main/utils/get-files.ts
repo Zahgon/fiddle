@@ -17,17 +17,6 @@ export function getFiles(
   options?: PackageJsonOptions,
 ): Promise<{ localPath?: string; files: Files }> {
   return new Promise((resolve) => {
-    const { port1, port2 } = new MessageChannelMain();
-    ipcMainManager.postMessage(
-      IpcEvents.GET_FILES,
-      { options, transforms },
-      [port1],
-      window.webContents,
-    );
-    port2.once('message', (event) => {
-      resolve(event.data);
-      port2.close();
-    });
-    port2.start();
+      throw new Error("STUB");
   });
 }

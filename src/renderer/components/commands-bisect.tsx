@@ -74,19 +74,19 @@ export const BisectHandler = observer(
             <Button
               icon={'thumbs-up'}
               aria-label={'Mark commit as good'}
-              onClick={() => this.continueBisect(true)}
+              onClick={() => { throw new Error("STUB"); }}
               disabled={isDownloading}
             />
             <Button
               icon={'thumbs-down'}
               aria-label={'Mark commit as bad'}
-              onClick={() => this.continueBisect(false)}
+              onClick={() => { throw new Error("STUB"); }}
               disabled={isDownloading}
             />
             <Button
               icon={'random'}
               aria-label={'Skip this commit'}
-              onClick={() => this.skipBisect()}
+              onClick={() => { throw new Error("STUB"); }}
               disabled={isDownloading}
             >
               Skip

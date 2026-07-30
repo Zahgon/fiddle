@@ -43,35 +43,15 @@ export const GistHistoryDialog = observer(
     }
 
     public componentDidMount() {
-      // Reload revisions when gistId changes while dialog is open
-      this.disposeReaction = reaction(
-        () => this.props.appState.gistId,
-        () => {
-          if (this.props.isOpen) {
-            this.loadRevisions();
-          }
-        },
-      );
-
-      if (this.props.isOpen) {
-        this.loadRevisions();
-      }
+        throw new Error("STUB");
     }
 
     public componentDidUpdate(prevProps: HistoryProps) {
-      const dialogJustOpened = this.props.isOpen && !prevProps.isOpen;
-      const revisionChanged =
-        this.props.activeRevision !== prevProps.activeRevision;
-
-      if (dialogJustOpened) {
-        this.loadRevisions();
-      } else if (this.props.isOpen && revisionChanged) {
-        this.loadRevisions(false);
-      }
+        throw new Error("STUB");
     }
 
     public componentWillUnmount() {
-      this.disposeReaction?.();
+        throw new Error("STUB");
     }
 
     private async loadRevisions(showLoading = true) {
@@ -95,7 +75,7 @@ export const GistHistoryDialog = observer(
         const { activeGistRevision } = appState;
         if (
           activeGistRevision &&
-          !revisions.some((r) => r.sha === activeGistRevision)
+          !revisions.some((r) => { throw new Error("STUB"); })
         ) {
           revisions.push({
             sha: activeGistRevision,
@@ -143,34 +123,7 @@ export const GistHistoryDialog = observer(
     }
 
     private renderRevisionItem = (revision: GistRevision) => {
-      const date = new Date(revision.date).toLocaleString();
-      const shortSha = revision.sha.substring(0, 7);
-      const isActive = this.props.activeRevision === revision.sha;
-
-      return (
-        <li
-          key={revision.sha}
-          className={`revision-item${isActive ? ' active' : ''}`}
-          onClick={() => this.handleRevisionSelect(revision)}
-        >
-          <div className="revision-content">
-            <h4>
-              <Icon icon="history" className="revision-icon" />
-              {revision.title}
-              <span className="sha-label">{shortSha}</span>
-              {isActive && (
-                <Tag intent="primary" minimal className="active-tag">
-                  Active
-                </Tag>
-              )}
-            </h4>
-            <div className="revision-details">
-              <span className="revision-date">{date}</span>
-              {this.renderChangeStats(revision.changes)}
-            </div>
-          </div>
-        </li>
-      );
+        throw new Error("STUB");
     };
 
     private renderContent() {

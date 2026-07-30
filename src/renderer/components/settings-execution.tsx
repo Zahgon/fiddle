@@ -43,13 +43,13 @@ export const ExecutionSettings = observer(
         executionFlags: Object.assign(
           {},
           ...props.appState.executionFlags.map((flag, idx) => {
-            return { [idx]: flag };
+              throw new Error("STUB");
           }),
         ),
         environmentVariables: Object.assign(
           {},
           ...props.appState.environmentVariables.map((envVar, idx) => {
-            return { [idx]: envVar };
+              throw new Error("STUB");
           }),
         ),
       };
@@ -65,15 +65,7 @@ export const ExecutionSettings = observer(
     }
 
     public componentDidMount() {
-      const { environmentVariables, executionFlags } = this.state;
-
-      if (Object.keys(executionFlags).length === 0) {
-        this.addNewSettingsItem(SettingItemType.Flags);
-      }
-
-      if (Object.keys(environmentVariables).length === 0) {
-        this.addNewSettingsItem(SettingItemType.EnvVars);
-      }
+        throw new Error("STUB");
     }
 
     /**
@@ -81,8 +73,7 @@ export const ExecutionSettings = observer(
      * after a run.
      */
     public handleDeleteDataChange(event: React.FormEvent<HTMLInputElement>) {
-      const { checked } = event.currentTarget;
-      this.props.appState.isKeepingUserDataDirs = checked;
+        throw new Error("STUB");
     }
 
     /**
@@ -91,8 +82,7 @@ export const ExecutionSettings = observer(
     public handleElectronLoggingChange(
       event: React.FormEvent<HTMLInputElement>,
     ) {
-      const { checked } = event.currentTarget;
-      this.props.appState.isEnablingElectronLogging = checked;
+        throw new Error("STUB");
     }
 
     /**
@@ -101,8 +91,7 @@ export const ExecutionSettings = observer(
     public handleSocketFirewallChange(
       event: React.FormEvent<HTMLInputElement>,
     ) {
-      const { checked } = event.currentTarget;
-      this.props.appState.isUsingSocketFirewall = checked;
+        throw new Error("STUB");
     }
 
     /**
@@ -116,15 +105,9 @@ export const ExecutionSettings = observer(
       const { name, value } = event.currentTarget;
 
       this.setState(
-        (prevState) => ({
-          [type]: {
-            ...prevState[type],
-            [name]: value,
-          },
-        }),
+        (prevState) => { throw new Error("STUB"); },
         () => {
-          const values = Object.values(this.state[type]);
-          this.props.appState[type] = values.filter((v) => v !== '');
+            throw new Error("STUB");
         },
       );
     }
@@ -135,12 +118,7 @@ export const ExecutionSettings = observer(
     private addNewSettingsItem(type: SettingItemType) {
       const array = Object.entries(this.state[type]);
 
-      this.setState((prevState) => ({
-        [type as any]: {
-          ...prevState[type],
-          [array.length]: '',
-        },
-      }));
+      this.setState((prevState) => { throw new Error("STUB"); });
     }
 
     /**
@@ -148,26 +126,14 @@ export const ExecutionSettings = observer(
      * Fiddles;
      */
     private handlePMChange = (event: React.FormEvent<HTMLInputElement>) => {
-      const { appState } = this.props;
-      const { value } = event.currentTarget;
-
-      appState.packageManager = value as IPackageManager;
+        throw new Error("STUB");
     };
 
     public renderDeleteItem(idx: string, type: SettingItemType): JSX.Element {
       const updated = this.state[type];
 
       const removeFn = () => {
-        if (Object.keys(updated).length === 1) {
-          updated[idx] = '';
-        } else {
-          delete updated[idx];
-        }
-
-        this.setState({ [type]: updated }, () => {
-          const values = Object.values(this.state[type]);
-          this.props.appState[type] = values.filter((v) => v !== '');
-        });
+          throw new Error("STUB");
       };
 
       return (
@@ -200,19 +166,7 @@ export const ExecutionSettings = observer(
           </p>
           <br />
           {varsArray.map(([idx, envVar]) => {
-            return (
-              <InputGroup
-                aria-label={'Set user-provided environment variables'}
-                placeholder='NODE_OPTIONS="--no-warnings --max-old-space-size=2048"'
-                value={envVar}
-                name={idx}
-                key={idx}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleSettingsItemChange(e, type)
-                }
-                rightElement={this.renderDeleteItem(idx, type)}
-              />
-            );
+              throw new Error("STUB");
           })}
         </FormGroup>
       );
@@ -236,19 +190,7 @@ export const ExecutionSettings = observer(
           </p>
           <br />
           {flagsArray.map(([idx, flag]) => {
-            return (
-              <InputGroup
-                aria-label={'Set user-provided flags'}
-                placeholder="--js-flags=--expose-gc"
-                value={flag}
-                name={idx}
-                key={idx}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleSettingsItemChange(e, type)
-                }
-                rightElement={this.renderDeleteItem(idx, type)}
-              />
-            );
+              throw new Error("STUB");
           })}
         </FormGroup>
       );
@@ -313,7 +255,7 @@ export const ExecutionSettings = observer(
             {this.renderExecutionFlags()}
             <ButtonGroup>
               <Button
-                onClick={() => this.addNewSettingsItem(SettingItemType.Flags)}
+                onClick={() => { throw new Error("STUB"); }}
               >
                 Add New Flag
               </Button>
@@ -324,7 +266,7 @@ export const ExecutionSettings = observer(
             {this.renderEnvironmentVariables()}
             <ButtonGroup>
               <Button
-                onClick={() => this.addNewSettingsItem(SettingItemType.EnvVars)}
+                onClick={() => { throw new Error("STUB"); }}
               >
                 Add New Variable
               </Button>

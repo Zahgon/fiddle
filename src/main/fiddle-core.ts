@@ -86,7 +86,7 @@ export async function installModules(
   modulesPairs: [string, string][],
   options: PMOperationOptions,
 ): Promise<void> {
-  const modules = modulesPairs.map(([pkg, version]) => `${pkg}@${version}`);
+  const modules = modulesPairs.map(([pkg, version]) => { throw new Error("STUB"); });
 
   // Install any modules the user added to the fiddle.
   if (modules.length > 0) {
@@ -181,7 +181,7 @@ async function startFiddleImpl(webContents: WebContents): Promise<RunResult> {
   // version of the form `0.0.0-local.<timestamp>`, so only consult the
   // stored local versions when the version string contains `-local`.
   const localPath = version.includes('-local')
-    ? getLocalVersions().find((v) => v.version === version)?.localPath
+    ? getLocalVersions().find((v) => { throw new Error("STUB"); })?.localPath
     : undefined;
 
   // Verify the executable exists on disk before using it.
@@ -250,7 +250,7 @@ async function startFiddleImpl(webContents: WebContents): Promise<RunResult> {
   // Strip any CLI option containing a null byte, which can truncate
   // strings at the OS level.
   const safeOptions = [dir, '--inspect', ...executionFlags].filter(
-    (opt) => typeof opt === 'string' && !opt.includes('\0'),
+    (opt) => { throw new Error("STUB"); },
   );
 
   const env = { ...process.env };
@@ -266,7 +266,7 @@ async function startFiddleImpl(webContents: WebContents): Promise<RunResult> {
   }
 
   const safeEnv = Object.fromEntries(
-    Object.entries(rendererEnv).filter(([key]) => !BLOCKED_ENV_KEYS.has(key)),
+    Object.entries(rendererEnv).filter(([key]) => { throw new Error("STUB"); }),
   );
   Object.assign(env, safeEnv);
 
@@ -300,29 +300,11 @@ async function startFiddleImpl(webContents: WebContents): Promise<RunResult> {
 
   pushOutputLine(webContents, `Electron v${version} started as "${appName}"`);
 
-  child.stdout?.on('data', (data) => pushOutput(webContents, data.toString()));
-  child.stderr?.on('data', (data) => pushOutput(webContents, data.toString()));
+  child.stdout?.on('data', (data) => { throw new Error("STUB"); });
+  child.stderr?.on('data', (data) => { throw new Error("STUB"); });
 
   return new Promise<RunResult>((resolve) => {
-    child.on('close', async (code, signal) => {
-      fiddleProcesses.delete(webContents);
-      await cleanup();
-
-      let result: RunResult;
-      if (typeof code !== 'number') {
-        result = RunResult.FAILURE;
-      } else {
-        result = code === 0 ? RunResult.SUCCESS : RunResult.FAILURE;
-      }
-
-      ipcMainManager.send(
-        IpcEvents.FIDDLE_STOPPED,
-        [code, signal],
-        [webContents, getIsolatedRunButtonFrame(webContents)],
-      );
-
-      resolve(result);
-    });
+      throw new Error("STUB");
   });
 }
 
@@ -337,112 +319,11 @@ export function stopFiddle(webContents: WebContents): void {
     // If the child process is still alive 1 second after we've
     // attempted to kill it by normal means, kill it forcefully.
     setTimeout(() => {
-      if (child.exitCode === null) {
-        child.kill('SIGKILL');
-      }
+        throw new Error("STUB");
     }, 1000);
   }
 }
 
 export async function setupFiddleCore(versions: ElectronVersions) {
-  // For managing downloads and versions for electron
-  installer = new Installer({
-    electronDownloads: ELECTRON_DOWNLOAD_PATH,
-    electronInstall: ELECTRON_INSTALL_PATH,
-  });
-
-  // Broadcast state changes to all windows
-  installer.on('state-changed', (event) => {
-    for (const window of BrowserWindow.getAllWindows()) {
-      ipcMainManager.send(
-        IpcEvents.VERSION_STATE_CHANGED,
-        [event],
-        [window.webContents, getIsolatedRunButtonFrame(window.webContents)],
-      );
-    }
-  });
-
-  runner = await Runner.create({ installer, versions });
-
-  // Refresh the "Run Fiddle..." menu item when window focus changes so it
-  // reflects the focused window's run state.
-  app.on('browser-window-focus', updateRunFiddleMenuItem);
-
-  ipcMainManager.on(
-    IpcEvents.GET_VERSION_STATE,
-    (event: IpcMainEvent, version: string) => {
-      event.returnValue = installer.state(version);
-    },
-  );
-  ipcMainManager.handle(
-    IpcEvents.DOWNLOAD_VERSION,
-    async (
-      event: IpcMainInvokeEvent,
-      version: string,
-      opts?: Partial<DownloadVersionParams>,
-    ) => {
-      const webContents = event.sender;
-
-      if (removingVersions.has(version)) {
-        throw new Error('Version is being removed');
-      }
-
-      if (!downloadingVersions.has(version)) {
-        const promise = installer.ensureDownloaded(version, {
-          ...opts,
-          progressCallback: (progress: ProgressObject) => {
-            ipcMainManager.send(
-              IpcEvents.VERSION_DOWNLOAD_PROGRESS,
-              [version, progress],
-              [webContents, getIsolatedRunButtonFrame(webContents)],
-            );
-          },
-        });
-
-        downloadingVersions.set(version, promise);
-      }
-
-      try {
-        await downloadingVersions.get(version);
-      } finally {
-        downloadingVersions.delete(version);
-      }
-    },
-  );
-  ipcMainManager.handle(
-    IpcEvents.REMOVE_VERSION,
-    async (_: IpcMainInvokeEvent, version: string) => {
-      if (downloadingVersions.has(version)) {
-        throw new Error('Version is being downloaded');
-      }
-
-      if (!removingVersions.has(version)) {
-        removingVersions.set(version, installer.remove(version));
-      }
-
-      try {
-        await removingVersions.get(version);
-        return installer.state(version);
-      } finally {
-        removingVersions.delete(version);
-      }
-    },
-  );
-  ipcMainManager.handle(
-    IpcEvents.START_FIDDLE,
-    async (event: IpcMainInvokeEvent) => {
-      const { sender, senderFrame } = event;
-
-      // START_FIDDLE is only valid when it originates from isolated-actions://
-      if (
-        senderFrame &&
-        new URL(senderFrame.url).protocol === `${ISOLATED_ACTIONS_SCHEME}:`
-      ) {
-        return await startFiddle(sender);
-      }
-    },
-  );
-  ipcMainManager.on(IpcEvents.STOP_FIDDLE, (event: IpcMainEvent) => {
-    stopFiddle(event.sender);
-  });
+    throw new Error("STUB");
 }

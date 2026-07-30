@@ -40,31 +40,19 @@ export const Output = observer(
       new Date('2021-12-31T23:59:59').toLocaleTimeString().length + 1;
 
     constructor(props: CommandsProps) {
-      super(props);
-
-      const { monaco } = this.props;
-      this.language = 'consoleOutputLanguage';
-      this.model = monaco.editor.createModel('', this.language);
-      this.updateModel();
-      reaction(
-        () => props.appState.output.length,
-        () => this.updateModel(),
-      );
+        throw new Error("STUB");
     }
 
     public async componentDidMount() {
-      autorun(async () => {
-        await this.initMonaco();
-        this.toggleConsole();
-      });
+        throw new Error("STUB");
     }
 
     public componentWillUnmount() {
-      this.destroyMonacoEditor();
+        throw new Error("STUB");
     }
 
     public componentDidUpdate() {
-      this.toggleConsole();
+        throw new Error("STUB");
     }
 
     /**
@@ -95,11 +83,7 @@ export const Output = observer(
         this.editor.addCommand(
           monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_K,
           () => {
-            this.props.appState.clearConsole();
-            this.props.appState.output.push({
-              timeString: new Date().toLocaleTimeString(),
-              text: '',
-            });
+              throw new Error("STUB");
           },
         );
       }
@@ -170,14 +154,14 @@ export const Output = observer(
     private async updateModel() {
       // set the lines
       const lines = Output.getLines(this.props.appState.output);
-      this.model.setValue(lines.map(({ text }) => text).join('\n'));
+      this.model.setValue(lines.map(({ text }) => { throw new Error("STUB"); }).join('\n'));
 
       // if we have an editor, tell it the line numbers and scroll to newest
       const { editor, lineNumbersMinChars } = this;
       if (!editor) return;
-      const timestrs = lines.map(({ timeString }) => timeString);
+      const timestrs = lines.map(({ timeString }) => { throw new Error("STUB"); });
       // adjust `i` here because the value passed in by monaco starts at 1, not 0
-      const lineNumbers = (i: number) => timestrs[i - 1] || '';
+      const lineNumbers = (i: number) => { throw new Error("STUB"); };
       editor.updateOptions({ lineNumbers, lineNumbersMinChars });
       editor.revealLine(editor.getScrollHeight());
     }
@@ -211,15 +195,8 @@ export const Output = observer(
 
       return {
         open: (url: string) => {
-          appState
-            .showConfirmDialog({
-              label: `Open ${url} in external browser?`,
-              ok: 'Open',
-            })
-            .then((open) => {
-              if (open) window.open(url);
-            });
-        },
+              throw new Error("STUB");
+          },
       };
     }
 

@@ -48,59 +48,29 @@ type ListEntry =
 const ITEM_HEIGHT = 30;
 
 const FixedSizeListItem = ({ index, data, style }: ListChildComponentProps) => {
-  const { entries, renderItem } = data;
-  const entry: ListEntry = entries[index];
-
-  if (entry.type === 'header') {
-    return (
-      <div
-        style={{
-          ...style,
-          padding: '4px 8px',
-          fontSize: '11px',
-          fontWeight: 600,
-          textTransform: 'uppercase',
-          color: 'var(--text-muted, #999)',
-          letterSpacing: '0.5px',
-          borderBottom: '1px solid var(--divider, #333)',
-          display: 'flex',
-          alignItems: 'center',
-          pointerEvents: 'none',
-        }}
-      >
-        {entry.label}
-      </div>
-    );
-  }
-
-  const renderedItem = renderItem(entry.item, entry.originalIndex);
-  return <div style={style}>{renderedItem}</div>;
+    throw new Error("STUB");
 };
 
 /**
  * Builds a list of entries with section headers separating local and remote versions.
  */
 function buildListEntries(filteredItems: RunnableVersion[]): ListEntry[] {
-  const locals = filteredItems.filter((v) => v.source === VersionSource.local);
-  const remotes = filteredItems.filter((v) => v.source !== VersionSource.local);
+  const locals = filteredItems.filter((v) => { throw new Error("STUB"); });
+  const remotes = filteredItems.filter((v) => { throw new Error("STUB"); });
 
   const entries: ListEntry[] = [];
 
   if (locals.length > 0) {
     entries.push({ type: 'header', label: 'Local Builds' });
     locals.forEach((item, i) =>
-      entries.push({ type: 'item', item, originalIndex: i }),
+      { throw new Error("STUB"); },
     );
   }
 
   if (remotes.length > 0) {
     entries.push({ type: 'header', label: 'Releases' });
     remotes.forEach((item, i) =>
-      entries.push({
-        type: 'item',
-        item,
-        originalIndex: locals.length + i,
-      }),
+      { throw new Error("STUB"); },
     );
   }
 
@@ -112,25 +82,7 @@ const itemListRenderer: ItemListRenderer<RunnableVersion> = ({
   renderItem,
   itemsParentRef,
 }) => {
-  const InnerElement = React.forwardRef((props, ref: React.Ref<Menu>) => {
-    return <Menu ref={ref} ulRef={itemsParentRef} {...props} />;
-  });
-  InnerElement.displayName = 'Menu';
-
-  const entries = buildListEntries(filteredItems);
-
-  return (
-    <FixedSizeList
-      innerElementType={InnerElement}
-      height={300}
-      width={400}
-      itemCount={entries.length}
-      itemSize={ITEM_HEIGHT}
-      itemData={{ renderItem, entries }}
-    >
-      {FixedSizeListItem}
-    </FixedSizeList>
-  );
+    throw new Error("STUB");
 };
 
 /**
@@ -188,45 +140,7 @@ export const filterItems: ItemListPredicate<RunnableVersion> = (
   query,
   versions,
 ) => {
-  if (query === '') return versions;
-
-  const q = query.toLowerCase();
-
-  return versions
-    .map((version: RunnableVersion) => {
-      const lowercase = version.version.toLowerCase();
-      // For local versions, also search by name
-      const nameMatch =
-        version.source === VersionSource.local && version.name
-          ? version.name.toLowerCase().indexOf(q)
-          : -1;
-      const versionIndex = lowercase.indexOf(q);
-      // Use best match (name or version string)
-      const index = nameMatch !== -1 ? nameMatch : versionIndex;
-      return {
-        index,
-        coerced: semver.coerce(lowercase),
-        version,
-      };
-    })
-    .filter((item) => item.index !== -1)
-    .sort((a, b) => {
-      // Local versions always sort first
-      const aLocal = a.version.source === VersionSource.local;
-      const bLocal = b.version.source === VersionSource.local;
-      if (aLocal && !bLocal) return -1;
-      if (!aLocal && bLocal) return 1;
-
-      // If the user is searching for e.g. 'nightly' we
-      // want to sort nightlies by descending major version.
-      if (isNaN(+q)) {
-        if (a.coerced && b.coerced) {
-          return semver.rcompare(a.coerced, b.coerced);
-        }
-      }
-      return a.index - b.index;
-    })
-    .map((item) => item.version);
+    throw new Error("STUB");
 };
 
 /**
@@ -245,7 +159,7 @@ export const renderVersionContextMenu = (
       <MenuItem
         text="Copy Version Number"
         onClick={() => {
-          navigator.clipboard.writeText(version);
+            throw new Error("STUB");
         }}
       />
     </Menu>,
@@ -358,8 +272,8 @@ export const VersionSelect = observer(
               isLocal
                 ? undefined
                 : (e: React.MouseEvent<HTMLButtonElement>) => {
-                    renderVersionContextMenu(e, version);
-                  }
+                    throw new Error("STUB");
+                }
             }
             disabled={!!this.props.disabled}
           />

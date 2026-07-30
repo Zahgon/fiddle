@@ -51,34 +51,15 @@ export class EditorMosaic {
   private currentHashes = new Map<EditorId, string>();
 
   public get isEdited() {
-    // If we haven't processed the save state upon initial load yet, don't mark as edited
-    // (All editors need to be mounted into Fiddle first)
-    if (this.savedHashes.size === 0) {
-      return false;
-    }
-
-    if (this.savedHashes.size !== this.currentHashes.size) {
-      return true;
-    }
-    for (const [id, hash] of this.currentHashes) {
-      if (this.savedHashes.get(id) !== hash) return true;
-    }
-    return false;
+      throw new Error("STUB");
   }
 
   public get files() {
-    const files = new Map<EditorId, EditorPresence>();
-
-    const { backups, editors, mosaic } = this;
-    for (const id of backups.keys()) files.set(id, EditorPresence.Hidden);
-    for (const id of getLeaves(mosaic)) files.set(id, EditorPresence.Pending);
-    for (const id of editors.keys()) files.set(id, EditorPresence.Visible);
-
-    return files;
+      throw new Error("STUB");
   }
 
   public get numVisible() {
-    return getLeaves(this.mosaic).length;
+      throw new Error("STUB");
   }
 
   // You probably want EditorMosaic.files instead.
@@ -89,19 +70,7 @@ export class EditorMosaic {
   private readonly editors = new Map<EditorId, Editor>();
 
   constructor() {
-    makeAutoObservable(this);
-
-    // whenever the mosaics are changed,
-    // update the editor layout
-    reaction(
-      () => this.mosaic,
-      () => this.layout(),
-    );
-
-    this.layout = this.layout.bind(this);
-    // TODO: evaluate if we need to dispose of the listener when this class is
-    // destroyed via FinalizationRegistry
-    window.monaco.editor.onDidChangeMarkers(this.setSeverityLevels.bind(this));
+      throw new Error("STUB");
   }
 
   /** File is visible, focus file content */
@@ -251,14 +220,14 @@ export class EditorMosaic {
       });
     }
 
-    this.setVisible(getLeaves(this.mosaic).filter((v) => v !== id));
+    this.setVisible(getLeaves(this.mosaic).filter((v) => { throw new Error("STUB"); }));
   }
 
   /** Remove the specified file and its editor */
   public async remove(id: EditorId) {
     this.editors.delete(id);
     this.backups.delete(id);
-    this.setVisible(getLeaves(this.mosaic).filter((v) => v !== id));
+    this.setVisible(getLeaves(this.mosaic).filter((v) => { throw new Error("STUB"); }));
 
     await this.updateCurrentHash();
   }
@@ -331,7 +300,7 @@ export class EditorMosaic {
   /** Get the contents of all files. */
   public values(): EditorValues {
     return Object.fromEntries(
-      [...this.files].map(([id]) => [id, this.value(id)]),
+      [...this.files].map(([id]) => { throw new Error("STUB"); }),
     );
   }
 
@@ -339,16 +308,11 @@ export class EditorMosaic {
   private layoutDebounce: ReturnType<typeof setTimeout> | undefined;
 
   public layout() {
-    clearTimeout(this.layoutDebounce);
-    this.layoutDebounce = setTimeout(() => {
-      for (const editor of this.editors.values()) {
-        editor.layout();
-      }
-    }, 50);
+      throw new Error("STUB");
   }
 
   public getAllEditorIds(): EditorId[] {
-    return [...this.editors.keys()];
+      throw new Error("STUB");
   }
 
   public getAllEditors(): Editor[] {
@@ -356,7 +320,7 @@ export class EditorMosaic {
   }
 
   public getFocusedEditor(): Editor | undefined {
-    return [...this.editors.values()].find((editor) => editor.hasTextFocus());
+    return [...this.editors.values()].find((editor) => { throw new Error("STUB"); });
   }
 
   public updateOptions(options: MonacoType.editor.IEditorOptions) {
@@ -364,19 +328,19 @@ export class EditorMosaic {
   }
 
   public mainEntryPointFile(): EditorId | undefined {
-    return Array.from(this.files.keys()).find((id) => isMainEntryPoint(id));
+    return Array.from(this.files.keys()).find((id) => { throw new Error("STUB"); });
   }
 
   private observeEdits(editor: Editor) {
     editor.onDidChangeModelContent(async () => {
-      await this.updateCurrentHash();
+        throw new Error("STUB");
     });
   }
 
   private async updateCurrentHash() {
     const hashes = await this.getAllHashes();
     runInAction(() => {
-      this.currentHashes = hashes;
+        throw new Error("STUB");
     });
   }
 
@@ -394,7 +358,7 @@ export class EditorMosaic {
       const digest = await window.crypto.subtle.digest('SHA-1', data);
       const hashArray = Array.from(new Uint8Array(digest));
       const hash = hashArray
-        .map((b) => b.toString(16).padStart(2, '0'))
+        .map((b) => { throw new Error("STUB"); })
         .join('');
       hashes.set(id, hash);
     }
@@ -405,7 +369,7 @@ export class EditorMosaic {
       const digest = await window.crypto.subtle.digest('SHA-1', data);
       const hashArray = Array.from(new Uint8Array(digest));
       const hash = hashArray
-        .map((b) => b.toString(16).padStart(2, '0'))
+        .map((b) => { throw new Error("STUB"); })
         .join('');
       hashes.set(id, hash);
     }
@@ -419,9 +383,7 @@ export class EditorMosaic {
   public async markAsSaved() {
     const hashes = await this.getAllHashes();
     runInAction(() => {
-      this.savedHashes = hashes;
-      // new map to clone
-      this.currentHashes = new Map(hashes);
+        throw new Error("STUB");
     });
   }
 
@@ -437,21 +399,6 @@ export class EditorMosaic {
   >();
 
   public setSeverityLevels() {
-    runInAction(() => {
-      for (const id of this.getAllEditorIds()) {
-        const markers = window.monaco.editor.getModelMarkers({
-          resource: window.monaco.Uri.parse(`inmemory://fiddle/${id}`),
-        });
-
-        const maxSeverity: MonacoType.MarkerSeverity = markers.reduce(
-          (max, marker) => {
-            return Math.max(max, marker.severity);
-          },
-          window.monaco.MarkerSeverity.Hint,
-        );
-
-        this.editorSeverityMap.set(id, maxSeverity);
-      }
-    });
+      throw new Error("STUB");
   }
 }

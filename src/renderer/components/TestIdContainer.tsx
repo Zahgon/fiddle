@@ -10,9 +10,5 @@ type TestIdContainerProps = PropsWithChildren<{
  * wrapping `div` so it has no CSS side effects.
  */
 export function TestIdContainer({ testId, children }: TestIdContainerProps) {
-  return (
-    <div data-testid={testId} style={{ display: 'contents' }}>
-      {children}
-    </div>
-  );
+    throw new Error("STUB");
 }

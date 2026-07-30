@@ -15,8 +15,8 @@ export function highlightText(
 
   const words = query
     .split(/\s+/)
-    .filter((word) => word.length > 0)
-    .map((s) => s.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1'));
+    .filter((word) => { throw new Error("STUB"); })
+    .map((s) => { throw new Error("STUB"); });
 
   if (words.length === 0) return [text];
 

@@ -27,10 +27,7 @@ export const Commands = observer(
     }
 
     private handleDoubleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-      // Only maximize if the toolbar itself is clicked (ignore for buttons, input, etc)
-      if (e.currentTarget === e.target) {
-        window.ElectronFiddle.macTitlebarClicked();
-      }
+        throw new Error("STUB");
     };
 
     public render() {

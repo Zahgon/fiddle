@@ -32,9 +32,7 @@ export const GenericDialog = observer(
     }
 
     public enterSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
-      if (e.key === 'Enter') {
-        this.onClose(true);
-      }
+        throw new Error("STUB");
     }
 
     public render() {

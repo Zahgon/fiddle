@@ -40,33 +40,20 @@ export const GistActionButton = observer(
     IGistActionButtonState
   > {
     public constructor(props: GistActionButtonProps) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this);
-      this.performGistAction = this.performGistAction.bind(this);
-      this.setSecret = this.setSecret.bind(this);
-      this.setPublic = this.setPublic.bind(this);
-
-      this.state = {
-        actionType: GistActionType.publish,
-      };
-
-      window.ElectronFiddle.removeAllListeners('save-fiddle-gist');
+        throw new Error("STUB");
     }
 
     private toaster?: Toaster;
     private refHandlers = {
-      toaster: (ref: Toaster) => (this.toaster = ref),
+      toaster: (ref: Toaster) => { throw new Error("STUB"); },
     };
 
     public componentDidMount() {
-      window.ElectronFiddle.addEventListener(
-        'save-fiddle-gist',
-        this.handleClick,
-      );
+        throw new Error("STUB");
     }
 
     public componentWillUnmount() {
-      window.ElectronFiddle.removeAllListeners('save-fiddle-gist');
+        throw new Error("STUB");
     }
 
     /**
@@ -78,18 +65,7 @@ export const GistActionButton = observer(
      * we publish
      */
     public async handleClick(): Promise<void> {
-      const { appState } = this.props;
-
-      if (!appState.gitHubLogin) {
-        appState.toggleAuthDialog();
-      }
-
-      // Wait for the dialog to be closed again
-      await when(() => !appState.isTokenDialogShowing);
-
-      if (appState.gitHubLogin) {
-        return this.performGistAction();
-      }
+        throw new Error("STUB");
     }
 
     private getFiddleDescriptionFromUser(): Promise<string | undefined> {
@@ -140,7 +116,7 @@ export const GistActionButton = observer(
           action: {
             text: 'Copy link',
             icon: 'clipboard',
-            onClick: () => navigator.clipboard.writeText(gist.url),
+            onClick: () => { throw new Error("STUB"); },
           },
         });
 
@@ -214,7 +190,7 @@ export const GistActionButton = observer(
             action: {
               text: 'Copy link',
               icon: 'clipboard',
-              onClick: () => navigator.clipboard.writeText(gist.url),
+              onClick: () => { throw new Error("STUB"); },
             },
           });
         }
@@ -289,14 +265,14 @@ export const GistActionButton = observer(
      * Publish fiddles as secret.
      */
     public setSecret() {
-      this.setPrivacy(false);
+        throw new Error("STUB");
     }
 
     /**
      * Publish fiddles as public.
      */
     public setPublic() {
-      this.setPrivacy(true);
+        throw new Error("STUB");
     }
 
     public render() {
@@ -368,17 +344,17 @@ export const GistActionButton = observer(
           <MenuItem
             text="Publish"
             active={actionType === GistActionType.publish}
-            onClick={() => this.setActionType(GistActionType.publish)}
+            onClick={() => { throw new Error("STUB"); }}
           />
           <MenuItem
             text="Update"
             active={actionType === GistActionType.update}
-            onClick={() => this.setActionType(GistActionType.update)}
+            onClick={() => { throw new Error("STUB"); }}
           />
           <MenuItem
             text="Delete"
             active={actionType === GistActionType.delete}
-            onClick={() => this.setActionType(GistActionType.delete)}
+            onClick={() => { throw new Error("STUB"); }}
           />
         </Menu>
       );
@@ -439,8 +415,8 @@ export const GistActionButton = observer(
       values = ensureRequiredFiles(values);
       return Object.fromEntries(
         Object.entries(values)
-          .filter(([, content]) => Boolean(content))
-          .map(([id, content]) => [id, { filename: id, content }]),
+          .filter(([, content]) => { throw new Error("STUB"); })
+          .map(([id, content]) => { throw new Error("STUB"); }),
       );
     };
   },

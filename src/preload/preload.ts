@@ -62,12 +62,12 @@ function addEventListener(
   const channel = channelMapping[type];
   if (!channel) return;
   const ipcListener = (_event: IpcRendererEvent, ...args: any[]) => {
-    listener(...args);
+      throw new Error("STUB");
   };
   ipcRenderer.on(channel, ipcListener);
   if (options?.signal) {
     options.signal.addEventListener('abort', () => {
-      ipcRenderer.off(channel, ipcListener);
+        throw new Error("STUB");
     });
   }
 }
@@ -143,27 +143,27 @@ export async function setupFiddleGlobal() {
       return ipcRenderer.invoke(IpcEvents.FETCH_VERSIONS);
     },
     fetchExample: (ref: string, path: string) =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_FETCH_EXAMPLE, { ref, path }),
+      { throw new Error("STUB"); },
     gistCreate: (params: GistCreateParams) =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_GIST_CREATE, params),
+      { throw new Error("STUB"); },
     gistDelete: (id: string) =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_GIST_DELETE, id),
+      { throw new Error("STUB"); },
     gistListCommits: (gistId: string) =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_GIST_LIST_COMMITS, gistId),
+      { throw new Error("STUB"); },
     gistLoad: (params: GistLoadParams) =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_GIST_LOAD, params),
+      { throw new Error("STUB"); },
     gistUpdate: (params: GistUpdateParams) =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_GIST_UPDATE, params),
+      { throw new Error("STUB"); },
     gitHubCheckAuth: () =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_TOKEN_CHECK_AUTH),
+      { throw new Error("STUB"); },
     gitHubSignIn: (token: string) =>
-      ipcRenderer.invoke(IpcEvents.GITHUB_TOKEN_SIGN_IN, token),
-    gitHubSignOut: () => ipcRenderer.invoke(IpcEvents.GITHUB_TOKEN_SIGN_OUT),
+      { throw new Error("STUB"); },
+    gitHubSignOut: () => { throw new Error("STUB"); },
     getElectronTypes(ver: RunnableVersion) {
       return ipcRenderer.invoke(IpcEvents.GET_ELECTRON_TYPES, ver);
     },
     getLatestStable() {
-      return ipcRenderer.sendSync(IpcEvents.GET_LATEST_STABLE);
+        throw new Error("STUB");
     },
     getLocalVersionState(ver: RunnableVersion) {
       return ipcRenderer.sendSync(IpcEvents.GET_LOCAL_VERSION_STATE, ver);
@@ -209,17 +209,17 @@ export async function setupFiddleGlobal() {
       return ipcRenderer.invoke(IpcEvents.GET_PROJECT_NAME, localPath);
     },
     getTemplate: (version: string) =>
-      ipcRenderer.invoke(IpcEvents.GET_TEMPLATE, version),
+      { throw new Error("STUB"); },
     getTemplateValues: (name: string) => {
-      return ipcRenderer.invoke(IpcEvents.GET_TEMPLATE_VALUES, name);
+        throw new Error("STUB");
     },
     isReleasedMajor(major: number) {
       return ipcRenderer.invoke(IpcEvents.IS_RELEASED_MAJOR, major);
     },
-    getTestTemplate: () => ipcRenderer.invoke(IpcEvents.GET_TEST_TEMPLATE),
-    getUsername: () => ipcRenderer.sendSync(IpcEvents.GET_USERNAME),
+    getTestTemplate: () => { throw new Error("STUB"); },
+    getUsername: () => { throw new Error("STUB"); },
     getVersionState: (version: string) =>
-      ipcRenderer.sendSync(IpcEvents.GET_VERSION_STATE, version),
+      { throw new Error("STUB"); },
     isDevMode: ipcRenderer.sendSync(IpcEvents.IS_DEV_MODE),
     macTitlebarClicked() {
       ipcRenderer.send(IpcEvents.CLICK_TITLEBAR_MAC);
@@ -230,44 +230,19 @@ export async function setupFiddleGlobal() {
         transforms: Array<FileTransformOperation>,
       ) => Promise<{ localPath?: string; files: Files }>,
     ) {
-      ipcRenderer.removeAllListeners(IpcEvents.GET_FILES);
-      ipcRenderer.on(
-        IpcEvents.GET_FILES,
-        async (e, { options, transforms }) => {
-          const { localPath, files } = await callback(options, transforms);
-          e.ports[0].postMessage({ localPath, files: [...files.entries()] });
-        },
-      );
+        throw new Error("STUB");
     },
     onGetStartFiddleOptions(callback: () => Promise<StartFiddleOptions>) {
-      ipcRenderer.removeAllListeners(IpcEvents.GET_START_FIDDLE_OPTIONS);
-      ipcRenderer.on(IpcEvents.GET_START_FIDDLE_OPTIONS, async (e) => {
-        try {
-          const options = await callback();
-          e.ports[0].postMessage({ result: options });
-        } catch (error) {
-          const message =
-            error instanceof Error ? error.message : String(error);
-          e.ports[0].postMessage({ error: message });
-        }
-      });
+        throw new Error("STUB");
     },
     onSetVersion(callback: (version: string) => Promise<void>) {
-      ipcRenderer.removeAllListeners(IpcEvents.SET_VERSION);
-      ipcRenderer.on(IpcEvents.SET_VERSION, async (e, version: string) => {
-        await callback(version);
-        e.ports[0].postMessage(undefined);
-      });
+        throw new Error("STUB");
     },
     async openThemeFolder() {
       await ipcRenderer.invoke(IpcEvents.OPEN_THEME_FOLDER);
     },
     packageRun({ dir, packageManager }: PMOperationOptions, command: string) {
-      return ipcRenderer.invoke(
-        IpcEvents.NPM_PACKAGE_RUN,
-        { dir, packageManager },
-        command,
-      );
+        throw new Error("STUB");
     },
     platform: process.platform,
     reloadWindows() {
@@ -286,7 +261,7 @@ export async function setupFiddleGlobal() {
       ]);
     },
     selectLocalVersion: () => {
-      return ipcRenderer.invoke(IpcEvents.LOAD_LOCAL_VERSION_FOLDER);
+        throw new Error("STUB");
     },
     sendReady() {
       ipcRenderer.send(WEBCONTENTS_READY_FOR_IPC_SIGNAL);

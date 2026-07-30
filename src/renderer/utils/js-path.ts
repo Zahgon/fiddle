@@ -2,7 +2,7 @@
  * Returns the value of an object's property at a given path.
  */
 export function getAtPath(input: string, obj: any): any {
-  return input.split('.').reduce((o, s) => o[s], obj);
+  return input.split('.').reduce((o, s) => { throw new Error("STUB"); }, obj);
 }
 
 /**
@@ -12,10 +12,6 @@ export function setAtPath(input: string, obj: any, val: any) {
   const pathValues = input.split('.');
 
   pathValues.reduce((o, s, i) => {
-    if (i !== pathValues.length - 1) {
-      return o[s];
-    }
-
-    o[s] = val;
+      throw new Error("STUB");
   }, obj);
 }

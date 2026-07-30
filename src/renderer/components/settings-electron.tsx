@@ -46,113 +46,7 @@ interface RowProps {
 
 // Observer component for individual rows to ensure they re-render when version state changes
 const ElectronVersionRow = observer(({ index, style, data }: RowProps) => {
-  const { versions, appState } = data;
-  const item = versions[index];
-
-  const renderHumanState = (item: RunnableVersion): JSX.Element => {
-    const { state, source } = item;
-    const isLocal = source === VersionSource.local;
-    let icon: IconName = 'box';
-    let humanState = isLocal ? 'Available' : 'Downloaded';
-
-    if (state === InstallState.downloading) {
-      icon = 'cloud-download';
-      humanState = 'Downloading';
-    } else if (state === InstallState.missing) {
-      icon = isLocal ? 'issue' : 'cloud';
-      humanState = isLocal ? 'Not Available' : 'Not Downloaded';
-    }
-
-    return (
-      <span>
-        <Icon icon={icon} /> {humanState}
-      </span>
-    );
-  };
-
-  const renderAction = (ver: RunnableVersion): JSX.Element => {
-    const { name, state, source, version } = ver;
-    const isLocal = source === VersionSource.local;
-    const buttonProps: ButtonProps = {
-      small: true,
-    };
-
-    switch (state) {
-      case InstallState.installed:
-      case InstallState.downloaded:
-        buttonProps.icon = 'trash';
-        buttonProps.onClick = () => appState.removeVersion(ver);
-        buttonProps.text = isLocal ? 'Remove' : 'Delete';
-        break;
-
-      case InstallState.installing:
-      case InstallState.downloading:
-        buttonProps.disabled = true;
-        buttonProps.icon = <Spinner size={16} value={ver.downloadProgress} />;
-        buttonProps.text = 'Downloading';
-        buttonProps.className = 'disabled-version';
-        break;
-
-      case InstallState.missing:
-        buttonProps.disabled = false;
-        buttonProps.loading = false;
-        buttonProps.icon = isLocal ? 'trash' : 'cloud-download';
-        buttonProps.text = isLocal ? 'Remove' : 'Download';
-        buttonProps.onClick = () => {
-          isLocal ? appState.removeVersion(ver) : appState.downloadVersion(ver);
-        };
-        break;
-    }
-
-    if (version === appState.currentElectronVersion.version) {
-      return (
-        <Tooltip2
-          position="auto"
-          intent="primary"
-          content={`Can't remove currently active Electron version (${name ?? version})`}
-        >
-          <AnchorButton
-            className={'disabled-version'}
-            disabled={true}
-            text={buttonProps.text}
-            icon={buttonProps.icon}
-          />
-        </Tooltip2>
-      );
-    } else if (!isLocal && disableDownload(version)) {
-      return (
-        <Tooltip2
-          position="auto"
-          intent="primary"
-          content={`Version is not available on your current OS`}
-        >
-          <AnchorButton
-            className={'disabled-version'}
-            disabled={true}
-            text={buttonProps.text}
-            icon={buttonProps.icon}
-          />
-        </Tooltip2>
-      );
-    }
-
-    return <Button {...buttonProps} type={undefined} />;
-  };
-
-  const isLocal = item.source === VersionSource.local;
-
-  return (
-    <div
-      className={`electron-version-row ${index % 2 === 0 ? 'even' : 'odd'} ${isLocal ? 'local' : 'remote'}`}
-      style={style}
-    >
-      <div className="version-col">
-        {isLocal ? item.name || 'Local Build' : item.version}
-      </div>
-      <div className="status-col">{renderHumanState(item)}</div>
-      <div className="action-col">{renderAction(item)}</div>
-    </div>
-  );
+    throw new Error("STUB");
 });
 
 /**
@@ -183,116 +77,64 @@ export const ElectronSettings = observer(
     }
 
     public handleUpdateElectronVersions() {
-      this.props.appState.updateElectronVersions();
+        throw new Error("STUB");
     }
 
     /**
      * Toggles visibility of non-downloaded versions
      */
     public handleStateChange(event: React.FormEvent<HTMLInputElement>) {
-      const { appState } = this.props;
-      const { checked } = event.currentTarget;
-      appState.showUndownloadedVersions = checked;
+        throw new Error("STUB");
     }
 
     /**
      * Toggles visibility of obsolete versions
      */
     public handleShowObsoleteChange(event: React.FormEvent<HTMLInputElement>) {
-      const { appState } = this.props;
-      const { checked } = event.currentTarget;
-      appState.showObsoleteVersions = checked;
+        throw new Error("STUB");
     }
 
     /**
      * Handles a change in which channels should be displayed.
      */
     public handleChannelChange(event: React.FormEvent<HTMLInputElement>) {
-      const { id, checked } = event.currentTarget;
-      const { appState } = this.props;
-
-      if (!checked) {
-        appState.hideChannels([id as ElectronReleaseChannel]);
-      } else {
-        appState.showChannels([id as ElectronReleaseChannel]);
-      }
+        throw new Error("STUB");
     }
 
     /**
      * Download all visible versions of Electron.
      */
     public async handleDownloadAll(): Promise<void> {
-      const {
-        downloadVersion,
-        versionsToShow,
-        startDownloadingAll,
-        stopDownloadingAll,
-      } = this.props.appState;
-
-      startDownloadingAll();
-
-      for (const ver of versionsToShow) {
-        await downloadVersion(ver);
-
-        if (!this.props.appState.isDownloadingAll) break;
-      }
-
-      stopDownloadingAll();
+        throw new Error("STUB");
     }
 
     /**
      * Delete all downloaded versions of Electron.
      */
     public async handleDeleteAll(): Promise<void> {
-      const { versions, removeVersion, startDeletingAll, stopDeletingAll } =
-        this.props.appState;
-
-      startDeletingAll();
-
-      for (const ver of Object.values(versions)) {
-        await removeVersion(ver);
-      }
-
-      stopDeletingAll();
+        throw new Error("STUB");
     }
 
     /**
      * Stops the downloads
      */
     public handleStopDownloads = (): void => {
-      this.props.appState.stopDownloadingAll();
+        throw new Error("STUB");
     };
 
     /**
      * Opens the "add local version" dialog
      */
     public handleAddVersion(): void {
-      this.props.appState.toggleAddVersionDialog();
+        throw new Error("STUB");
     }
 
     private handleFilterChange(event: React.ChangeEvent<HTMLInputElement>) {
-      this.setState({ filterQuery: event.target.value });
+        throw new Error("STUB");
     }
 
     private get filteredVersions(): RunnableVersion[] {
-      const { filterQuery } = this.state;
-      const { versionsToShow } = this.props.appState;
-
-      if (!filterQuery) return versionsToShow;
-
-      const query = filterQuery.toLowerCase();
-      return versionsToShow.filter((ver) => {
-        // Search by version string
-        if (ver.version.toLowerCase().includes(query)) return true;
-        // Also search by name for local builds
-        if (
-          ver.source === VersionSource.local &&
-          ver.name &&
-          ver.name.toLowerCase().includes(query)
-        )
-          return true;
-        return false;
-      });
+        throw new Error("STUB");
     }
 
     public render() {
@@ -391,24 +233,7 @@ export const ElectronSettings = observer(
             >
               Channels
             </label>
-            {Object.values(channels).map((channel) => (
-              <Tooltip2
-                content={`Can't disable channel of selected version (${appState.version})`}
-                disabled={!getIsCurrentVersionReleaseChannel(channel)}
-                position="bottom"
-                intent="primary"
-                key={channel}
-              >
-                <Checkbox
-                  checked={getIsChecked(channel)}
-                  label={channel}
-                  id={channel}
-                  onChange={this.handleChannelChange}
-                  disabled={getIsCurrentVersionReleaseChannel(channel)}
-                  inline={true}
-                />
-              </Tooltip2>
-            ))}
+            {Object.values(channels).map((channel) => { throw new Error("STUB"); })}
           </div>
 
           <div>
@@ -468,10 +293,10 @@ export const ElectronSettings = observer(
     private renderVersionsTable(): JSX.Element {
       const versions = this.filteredVersions;
       const localVersions = versions.filter(
-        (v) => v.source === VersionSource.local,
+        (v) => { throw new Error("STUB"); },
       );
       const remoteVersions = versions.filter(
-        (v) => v.source !== VersionSource.local,
+        (v) => { throw new Error("STUB"); },
       );
       const { appState } = this.props;
 

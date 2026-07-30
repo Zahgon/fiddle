@@ -28,32 +28,15 @@ export const BisectDialog = observer(
     BisectDialogState
   > {
     constructor(props: BisectDialogProps) {
-      super(props);
-
-      this.onSubmit = this.onSubmit.bind(this);
-      this.onAuto = this.onAuto.bind(this);
-      this.onClose = this.onClose.bind(this);
-      this.onBeginSelect = this.onBeginSelect.bind(this);
-      this.onEndSelect = this.onEndSelect.bind(this);
-      this.showHelp = this.showHelp.bind(this);
-      this.isEarliestItemDisabled = this.isEarliestItemDisabled.bind(this);
-      this.isLatestItemDisabled = this.isLatestItemDisabled.bind(this);
-
-      const allVersions = this.props.appState.versionsToShow;
-
-      this.state = {
-        allVersions,
-        startIndex: allVersions.length > 10 ? 10 : allVersions.length - 1,
-        endIndex: 0,
-      };
+        throw new Error("STUB");
     }
 
     public onBeginSelect(version: RunnableVersion) {
-      this.setState({ startIndex: this.state.allVersions.indexOf(version) });
+        throw new Error("STUB");
     }
 
     public onEndSelect(version: RunnableVersion) {
-      this.setState({ endIndex: this.state.allVersions.indexOf(version) });
+        throw new Error("STUB");
     }
 
     getBisectRange(): RunnableVersion[] {
@@ -67,27 +50,11 @@ export const BisectDialog = observer(
      * Handles the submission of the dialog
      */
     public async onSubmit(): Promise<void> {
-      const range = this.getBisectRange();
-      if (range.length > 1) {
-        const { appState } = this.props;
-        appState.Bisector = new Bisector(range);
-        const initialBisectPivot =
-          appState.Bisector.getCurrentVersion().version;
-        appState.setVersion(initialBisectPivot);
-        this.onClose();
-      }
+        throw new Error("STUB");
     }
 
     public async onAuto(): Promise<void> {
-      const range = this.getBisectRange();
-      if (range.length > 1) {
-        // the RunnableVersion proxies can't be cloned by structuredClone,
-        // so we have to create plain objects out of them
-        window.ElectronFiddle.autobisectFiddle(
-          range.map((version) => ({ ...version })),
-        );
-        this.onClose();
-      }
+        throw new Error("STUB");
     }
 
     /**
@@ -101,96 +68,35 @@ export const BisectDialog = observer(
      * Shows the additional help
      */
     public showHelp() {
-      this.setState({ showHelp: true });
+        throw new Error("STUB");
     }
 
     /**
      * Can we get this show on the road?
      */
     get canSubmit(): boolean {
-      return this.state.startIndex > this.state.endIndex;
+        throw new Error("STUB");
     }
 
     /**
      * Can we autobisect?
      */
     get canAuto(): boolean {
-      return this.canSubmit;
+        throw new Error("STUB");
     }
 
     /**
      * Renders the buttons
      */
     get buttons() {
-      return [
-        <Button
-          icon="play"
-          key="submit"
-          disabled={!this.canSubmit}
-          onClick={this.onSubmit}
-          text="Begin"
-        />,
-        <Button
-          icon="lab-test"
-          key="auto"
-          disabled={!this.canAuto}
-          onClick={this.onAuto}
-          text="Auto"
-        />,
-        <Button
-          icon="cross"
-          key="cancel"
-          onClick={this.onClose}
-          text="Cancel"
-        />,
-      ];
+        throw new Error("STUB");
     }
 
     /**
      * Renders the help
      */
     get help() {
-      let moreHelp = (
-        <Button icon="help" text="Show help" onClick={this.showHelp} />
-      );
-
-      if (this.state.showHelp) {
-        moreHelp = (
-          <>
-            <p>
-              First, write a fiddle that reproduces a bug or an issue. Then,
-              select the earliest version to start your search with. Typically,
-              that&apos;s the &quot;last known good&quot; version that did not
-              have the bug. Then, select that latest version to end the search
-              with, usually the &quot;first known bad&quot; version.
-            </p>
-            <p>
-              Once you begin your bisect, Fiddle will run your fiddle with a
-              number of Electron versions, closing in on the version that
-              introduced the bug. Once completed, you will know which Electron
-              version introduced your issue.
-            </p>
-          </>
-        );
-      }
-
-      return (
-        <Callout style={{ marginTop: 0, marginBottom: '1rem' }}>
-          <p>
-            A &quot;bisect&quot; is a popular method{' '}
-            <a
-              href="https://git-scm.com/docs/git-bisect"
-              target="_blank"
-              rel="noreferrer"
-            >
-              borrowed from <code>git</code>
-            </a>{' '}
-            for learning which version of Electron introduced a bug. This tool
-            helps you perform a bisect.
-          </p>
-          {moreHelp}
-        </Callout>
-      );
+        throw new Error("STUB");
     }
 
     public render() {
@@ -240,23 +146,14 @@ export const BisectDialog = observer(
      * Should an item in the "earliest version" dropdown be disabled?
      */
     public isEarliestItemDisabled(version: RunnableVersion): boolean {
-      const { allVersions, endIndex } = this.state;
-
-      // In the array, "newer" versions will have a lower index.
-      // 0: 5.0.0
-      // 1: 4.0.0
-      // 2: 3.0.0
-      // ...
-      return allVersions.indexOf(version) < endIndex + 1;
+        throw new Error("STUB");
     }
 
     /**
      * Should an item in the "latest version" dropdown be disabled?
      */
     public isLatestItemDisabled(version: RunnableVersion): boolean {
-      const { allVersions, startIndex } = this.state;
-
-      return allVersions.indexOf(version) > startIndex - 1;
+        throw new Error("STUB");
     }
   },
 );

@@ -15,25 +15,5 @@ interface VersionChooserProps {
  * download is managed in the state.
  */
 export const VersionChooser = observer((props: VersionChooserProps) => {
-  const {
-    Bisector,
-    currentElectronVersion,
-    isAutoBisecting,
-    isRunning,
-    isSettingsShowing,
-    setVersion,
-  } = props.appState;
-
-  return (
-    <ButtonGroup>
-      <VersionSelect
-        appState={props.appState}
-        onVersionSelect={({ version }) => setVersion(version)}
-        currentVersion={currentElectronVersion}
-        disabled={
-          !!Bisector || isAutoBisecting || isSettingsShowing || isRunning
-        }
-      />
-    </ButtonGroup>
-  );
+    throw new Error("STUB");
 });

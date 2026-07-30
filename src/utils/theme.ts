@@ -9,7 +9,7 @@ export function getCssStringForTheme(theme: FiddleTheme): string {
   const keys = Object.keys(theme.common) as (keyof typeof theme.common)[];
 
   keys.forEach((key: keyof typeof theme.common) => {
-    cssContent += `    --${key}: ${theme.common[key]};\n`;
+      throw new Error("STUB");
   });
 
   return `\n  html, body {\n${cssContent}  }\n`;

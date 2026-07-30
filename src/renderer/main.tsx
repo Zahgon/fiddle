@@ -13,101 +13,38 @@ initSentry();
 // Register Prettier as the formatter for all Monaco.
 monaco.languages.registerDocumentFormattingEditProvider('javascript', {
   provideDocumentFormattingEdits: async (model) => {
-    const formatted = await prettier.format(model.getValue(), {
-      semi: false,
-      singleQuote: true,
-      parser: 'babel',
-      trailingComma: 'none',
-      plugins: [prettierPluginBabel, prettierPluginESTree as never],
-    });
-    return [
-      {
-        range: model.getFullModelRange(),
-        text: formatted,
-      },
-    ];
-  },
+        throw new Error("STUB");
+    },
 });
 
 monaco.languages.registerDocumentRangeFormattingEditProvider('javascript', {
   provideDocumentRangeFormattingEdits: async (model, range) => {
-    const value = model.getValueInRange(range);
-    const formatted = await prettier.format(value, {
-      semi: false,
-      singleQuote: true,
-      parser: 'babel',
-      trailingComma: 'none',
-      plugins: [prettierPluginBabel, prettierPluginESTree as never],
-    });
-    return [
-      {
-        range,
-        text: formatted,
-      },
-    ];
-  },
+        throw new Error("STUB");
+    },
 });
 
 monaco.languages.registerDocumentFormattingEditProvider('html', {
   provideDocumentFormattingEdits: async (model) => {
-    const formatted = await prettier.format(model.getValue(), {
-      parser: 'html',
-      plugins: [prettierPluginHTML],
-    });
-    return [
-      {
-        range: model.getFullModelRange(),
-        text: formatted,
-      },
-    ];
-  },
+        throw new Error("STUB");
+    },
 });
 
 monaco.languages.registerDocumentRangeFormattingEditProvider('html', {
   provideDocumentRangeFormattingEdits: async (model, range) => {
-    const value = model.getValueInRange(range);
-    const formatted = await prettier.format(value, {
-      parser: 'html',
-      plugins: [prettierPluginHTML],
-    });
-    return [
-      {
-        range,
-        text: formatted,
-      },
-    ];
-  },
+        throw new Error("STUB");
+    },
 });
 
 monaco.languages.registerDocumentFormattingEditProvider('css', {
   provideDocumentFormattingEdits: async (model) => {
-    const formatted = await prettier.format(model.getValue(), {
-      parser: 'css',
-      plugins: [prettierPluginCSS],
-    });
-    return [
-      {
-        range: model.getFullModelRange(),
-        text: formatted,
-      },
-    ];
-  },
+        throw new Error("STUB");
+    },
 });
 
 monaco.languages.registerDocumentRangeFormattingEditProvider('css', {
   provideDocumentRangeFormattingEdits: async (model, range) => {
-    const value = model.getValueInRange(range);
-    const formatted = await prettier.format(value, {
-      parser: 'css',
-      plugins: [prettierPluginCSS],
-    });
-    return [
-      {
-        range,
-        text: formatted,
-      },
-    ];
-  },
+        throw new Error("STUB");
+    },
 });
 
 window.monaco = monaco;

@@ -55,69 +55,11 @@ export const Editors = observer(
      * Executed right after the component mounts. We'll setup the IPC listeners here.
      */
     public async componentDidMount() {
-      this.stopListening();
-
-      window.ElectronFiddle.addEventListener(
-        'execute-monaco-command',
-        (cmd: string, opts?: Partial<{ all: boolean }>) => {
-          this.executeCommand(cmd, opts);
-        },
-      );
-
-      window.ElectronFiddle.addEventListener('new-fiddle', async () => {
-        const { modules, version } = this.props.appState;
-        const values = await window.ElectronFiddle.getTemplate(version);
-        const options: SetFiddleOptions = { templateName: version };
-
-        // Clear previously installed modules.
-        modules.clear();
-
-        await window.app.replaceFiddle(values, options);
-      });
-
-      window.ElectronFiddle.addEventListener('new-test', async () => {
-        const values = await window.ElectronFiddle.getTestTemplate();
-        const options: SetFiddleOptions = { templateName: 'Test' };
-
-        await window.app.replaceFiddle(values, options);
-      });
-
-      window.ElectronFiddle.addEventListener(
-        'toggle-monaco-option',
-        (cmd: string) => {
-          this.toggleEditorOption(cmd);
-        },
-      );
-
-      window.ElectronFiddle.addEventListener('redo-in-editor', () => {
-        const editor = this.props.appState.editorMosaic.getFocusedEditor();
-        if (editor) {
-          const model = editor.getModel();
-          if (model) (model as any).redo();
-        }
-      });
-
-      window.ElectronFiddle.addEventListener('undo-in-editor', () => {
-        const editor = this.props.appState.editorMosaic.getFocusedEditor();
-        if (editor) {
-          const model = editor.getModel();
-          if (model) (model as any).undo();
-        }
-      });
-
-      window.ElectronFiddle.addEventListener('select-all-in-editor', () => {
-        const editor = this.props.appState.editorMosaic.getFocusedEditor();
-        if (editor) {
-          const model = editor.getModel();
-          if (model) {
-            editor.setSelection(model.getFullModelRange());
-          }
-        }
-      });
+        throw new Error("STUB");
     }
 
     public componentWillUnmount() {
-      this.stopListening();
+        throw new Error("STUB");
     }
 
     private stopListening() {
@@ -220,21 +162,7 @@ export const Editors = observer(
        * Renders a Mosaic tile
        */
       const renderTile = (id: EditorId, path: Array<MosaicBranch>) => {
-        const content = renderEditor(id);
-        const title = getEditorTitle(id as EditorId);
-
-        return (
-          <MosaicWindow<EditorId>
-            className={id}
-            path={path}
-            title={title}
-            renderToolbar={(props: MosaicWindowProps<EditorId>) =>
-              renderToolbar(props, id)
-            }
-          >
-            {content}
-          </MosaicWindow>
-        );
+          throw new Error("STUB");
       };
 
       const renderEditor = (id: EditorId) => {
@@ -267,9 +195,7 @@ export const Editors = observer(
      * Handles a change in the visible nodes
      */
     public onChange(currentNode: MosaicNode<EditorId> | null) {
-      runInAction(() => {
-        this.props.appState.editorMosaic.mosaic = currentNode;
-      });
+        throw new Error("STUB");
     }
 
     /**

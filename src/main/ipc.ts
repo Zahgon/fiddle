@@ -34,31 +34,7 @@ class IpcMainManager extends EventEmitter {
   >();
 
   constructor() {
-    super();
-
-    ipcMainEvents.forEach((name) => {
-      ipcMain.removeAllListeners(name);
-      ipcMain.on(name, (event: Electron.IpcMainEvent, ...args: Array<any>) => {
-        // Only accept messages from BrowserWindows created by the app.
-        // This rejects IPC from WebViews, sub-frames, or detached windows.
-        if (!BrowserWindow.fromWebContents(event.sender)) return;
-        this.emit(name, event, ...args);
-      });
-    });
-
-    ipcMain.on(
-      WEBCONTENTS_READY_FOR_IPC_SIGNAL,
-      (event: Electron.IpcMainEvent) => {
-        this.readyWebContents.add(event.sender);
-
-        const queue = this.messageQueue.get(event.sender);
-        this.messageQueue.delete(event.sender);
-        if (!queue) return;
-        for (const item of queue) {
-          this.send(item[0], item[1], event.sender);
-        }
-      },
-    );
+      throw new Error("STUB");
   }
 
   override on(event: IpcMainEvent, listener: (...args: any[]) => void): this {
@@ -74,7 +50,7 @@ class IpcMainManager extends EventEmitter {
   }
 
   override emit(event: IpcMainEvent, ...args: any[]): boolean {
-    return super.emit(event, ...args);
+      throw new Error("STUB");
   }
 
   override removeAllListeners(event?: IpcMainEvent): this {
@@ -97,7 +73,7 @@ class IpcMainManager extends EventEmitter {
   ) {
     if (target === undefined || target === null) {
       getOrCreateMainWindow().then((window) => {
-        this.send(channel, args, window.webContents);
+          throw new Error("STUB");
       });
       return;
     }
@@ -137,30 +113,14 @@ class IpcMainManager extends EventEmitter {
     channel: IpcEvents,
     listener: (event: Electron.IpcMainInvokeEvent, ...args: any[]) => any,
   ) {
-    // there can be only one, so remove previous one first
-    ipcMain.removeHandler(channel);
-    ipcMain.handle(
-      channel,
-      (event: Electron.IpcMainInvokeEvent, ...args: any[]) => {
-        // Only accept messages from BrowserWindows created by the app.
-        // This rejects IPC from WebViews, sub-frames, or detached windows.
-        if (!BrowserWindow.fromWebContents(event.sender)) return;
-        return listener(event, ...args);
-      },
-    );
+      throw new Error("STUB");
   }
 
   public handleOnce(
     channel: IpcEvents,
     listener: (event: Electron.IpcMainInvokeEvent, ...args: any[]) => any,
   ) {
-    ipcMain.handleOnce(
-      channel,
-      (event: Electron.IpcMainInvokeEvent, ...args: any[]) => {
-        if (!BrowserWindow.fromWebContents(event.sender)) return;
-        return listener(event, ...args);
-      },
-    );
+      throw new Error("STUB");
   }
 
   public postMessage(
@@ -172,7 +132,7 @@ class IpcMainManager extends EventEmitter {
     const _target = target;
     if (!_target) {
       getOrCreateMainWindow().then((window) => {
-        window.webContents.postMessage(channel, message, transfer);
+          throw new Error("STUB");
       });
       return;
     }

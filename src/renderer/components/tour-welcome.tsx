@@ -107,15 +107,7 @@ export function getWelcomeTour(): Set<TourScriptStep> {
         stop,
         advance,
       }: TourStepGetButtonParams): Array<JSX.Element> => {
-        return [
-          <Button key="btn-stop" onClick={stop} text="I'm good!" icon="stop" />,
-          <Button
-            key="btn-adv"
-            onClick={advance}
-            text="Electron Basics"
-            icon="help"
-          />,
-        ];
+          throw new Error("STUB");
       },
     },
     {
@@ -205,33 +197,18 @@ export const WelcomeTour = observer(
      * Stops the tour, closing it.
      */
     public stopTour() {
-      this.props.appState.disableTour();
+        throw new Error("STUB");
     }
 
     /**
      * Starts the tour.
      */
     public startTour() {
-      this.setState({ isTourStarted: true });
+        throw new Error("STUB");
     }
 
     get buttons() {
-      return (
-        <>
-          <Button
-            key="cancel"
-            onClick={this.stopTour}
-            icon="cross"
-            text={`I'll figure it out`}
-          />
-          <Button
-            key="ok"
-            onClick={this.startTour}
-            icon="presentation"
-            text="Show me around"
-          />
-        </>
-      );
+        throw new Error("STUB");
     }
 
     public render() {

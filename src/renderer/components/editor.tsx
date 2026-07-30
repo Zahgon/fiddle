@@ -36,15 +36,15 @@ export class Editor extends React.Component<EditorProps> {
   }
 
   public shouldComponentUpdate() {
-    return false;
+      throw new Error("STUB");
   }
 
   public async componentDidMount() {
-    await this.initMonaco();
+      throw new Error("STUB");
   }
 
   public componentWillUnmount() {
-    this.destroyMonaco();
+      throw new Error("STUB");
   }
 
   /**
@@ -101,8 +101,7 @@ export class Editor extends React.Component<EditorProps> {
 
       // mark this editor as focused whenever it is
       this.editor.onDidFocusEditorText(() => {
-        const { id, setFocused } = this.props;
-        setFocused(id);
+          throw new Error("STUB");
       });
 
       await this.editorDidMount(this.editor);
@@ -113,10 +112,7 @@ export class Editor extends React.Component<EditorProps> {
    * Destroy Monaco.
    */
   public destroyMonaco() {
-    if (typeof this.editor !== 'undefined') {
-      console.log('Editor: Disposing');
-      this.editor.dispose();
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -127,15 +123,8 @@ export class Editor extends React.Component<EditorProps> {
 
     return {
       open: (url: string) => {
-        appState
-          .showConfirmDialog({
-            label: `Open ${url} in external browser?`,
-            ok: 'Open',
-          })
-          .then((open) => {
-            if (open) window.open(url);
-          });
-      },
+            throw new Error("STUB");
+        },
     };
   }
 

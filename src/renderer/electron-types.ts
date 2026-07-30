@@ -15,16 +15,7 @@ export class ElectronTypes {
   private electronTypesDisposable: MonacoType.IDisposable | undefined;
 
   constructor(private readonly monaco: typeof MonacoType) {
-    window.ElectronFiddle.addEventListener(
-      'electron-types-changed',
-      (types, version) => {
-        // Dispose of any previous Electron types so there's only ever one
-        this.electronTypesDisposable?.dispose();
-        this.electronTypesDisposable = undefined;
-
-        this.setElectronTypes(types, version);
-      },
-    );
+      throw new Error("STUB");
   }
 
   public async setVersion(ver?: RunnableVersion): Promise<void> {

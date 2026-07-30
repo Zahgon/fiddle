@@ -28,7 +28,7 @@ export const GeneralSettings = observer(
           <h1>General Settings</h1>
           <AppearanceSettings
             appState={this.props.appState}
-            toggleHasPopoverOpen={() => this.props.toggleHasPopoverOpen()}
+            toggleHasPopoverOpen={() => { throw new Error("STUB"); }}
           />
           <Divider />
           <FontSettings appState={this.props.appState} />

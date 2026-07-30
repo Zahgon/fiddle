@@ -30,32 +30,14 @@ export class OutputEditorsWrapper extends React.Component<
   };
 
   constructor(props: any) {
-    super(props);
-    this.state = {
-      mosaic: {
-        direction: 'column',
-        first: 'output',
-        second: {
-          direction: 'row',
-          first: 'sidebar',
-          second: 'editors',
-          splitPercentage: 15,
-        },
-        splitPercentage: 25,
-      },
-      focusable: true,
-    };
-    reaction(
-      () => this.props.appState.isSettingsShowing,
-      (isSettingsShowing) => this.setState({ focusable: !isSettingsShowing }),
-    );
+      throw new Error("STUB");
   }
 
   public render() {
     return (
       <Mosaic<WrapperEditorId>
         renderTile={(id: string) =>
-          this.MOSAIC_ELEMENTS[id as keyof typeof this.MOSAIC_ELEMENTS]
+          { throw new Error("STUB"); }
         }
         resize={{ minimumPaneSizePercentage: 15 }}
         value={this.state.mosaic}
@@ -66,13 +48,6 @@ export class OutputEditorsWrapper extends React.Component<
   }
 
   private onChange = (rootNode: MosaicNode<WrapperEditorId> | null) => {
-    if (rootNode === null) return;
-    const isConsoleShowing =
-      (rootNode as MosaicParent<WrapperEditorId>).splitPercentage !== 0;
-
-    if (isConsoleShowing !== this.props.appState.isConsoleShowing) {
-      this.props.appState.isConsoleShowing = isConsoleShowing;
-    }
-    this.setState({ mosaic: rootNode });
+      throw new Error("STUB");
   };
 }

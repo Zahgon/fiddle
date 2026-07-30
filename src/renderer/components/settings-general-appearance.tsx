@@ -26,7 +26,7 @@ export const filterItem: ItemPredicate<LoadedFiddleTheme> = (
   query,
   { name },
 ) => {
-  return name.toLowerCase().includes(query.toLowerCase());
+    throw new Error("STUB");
 };
 
 /**
@@ -72,41 +72,7 @@ export const AppearanceSettings = observer(
     AppearanceSettingsState
   > {
     public constructor(props: AppearanceSettingsProps) {
-      super(props);
-
-      this.handleChange = this.handleChange.bind(this);
-      this.openThemeFolder = this.openThemeFolder.bind(this);
-      this.handleAddTheme = this.handleAddTheme.bind(this);
-      this.handleThemeSource = this.handleThemeSource.bind(this);
-
-      this.state = {
-        themes: [],
-      };
-
-      window.ElectronFiddle.getAvailableThemes().then((themes) => {
-        const { theme } = this.props.appState;
-        const selectedTheme =
-          (theme && themes.find(({ file }) => file === theme)) ||
-          getCurrentTheme();
-
-        this.setState({ themes, selectedTheme });
-
-        // set up mobx so that changes from system sync are reflected in picker
-        reaction(
-          () => this.props.appState.theme,
-          async () => {
-            const selectedTheme = await getTheme(
-              this.props.appState,
-              this.props.appState.theme,
-            );
-            this.setState({ selectedTheme });
-          },
-        );
-      });
-
-      this.createNewThemeFromCurrent =
-        this.createNewThemeFromCurrent.bind(this);
-      this.openThemeFolder = this.openThemeFolder.bind(this);
+        throw new Error("STUB");
     }
 
     /**
@@ -114,29 +80,14 @@ export const AppearanceSettings = observer(
      * the current theme.
      */
     public handleChange(theme: LoadedFiddleTheme) {
-      this.setState({ selectedTheme: theme });
-      this.props.appState.setTheme(theme.file);
+        throw new Error("STUB");
     }
 
     /**
      * Creates a new theme from the current template.
      */
     public async createNewThemeFromCurrent(): Promise<boolean> {
-      const { appState } = this.props;
-      const theme = await getTheme(appState, appState.theme);
-
-      try {
-        await window.ElectronFiddle.createThemeFile(theme);
-        this.setState({
-          themes: await window.ElectronFiddle.getAvailableThemes(),
-        });
-
-        return true;
-      } catch (error) {
-        console.warn(`Themes: Failed to create new theme from current`, error);
-
-        return false;
-      }
+        throw new Error("STUB");
     }
 
     /**
@@ -157,20 +108,11 @@ export const AppearanceSettings = observer(
      * Opens the "add monaco theme" dialog
      */
     public async handleAddTheme(): Promise<void> {
-      this.props.appState.toggleAddMonacoThemeDialog();
-
-      // Wait for the dialog to be closed again
-      await when(() => !this.props.appState.isTokenDialogShowing);
-
-      this.setState({
-        themes: await window.ElectronFiddle.getAvailableThemes(),
-      });
+        throw new Error("STUB");
     }
 
     public handleThemeSource(event: React.FormEvent<HTMLInputElement>): void {
-      const { appState } = this.props;
-      const { checked } = event.currentTarget;
-      appState.isUsingSystemTheme = checked;
+        throw new Error("STUB");
     }
 
     public render() {
@@ -201,7 +143,7 @@ export const AppearanceSettings = observer(
               itemPredicate={filterItem}
               onItemSelect={this.handleChange}
               popoverProps={{
-                onClosed: () => this.props.toggleHasPopoverOpen(),
+                onClosed: () => { throw new Error("STUB"); },
               }}
               noResults={<MenuItem disabled={true} text="No results." />}
             >
@@ -209,7 +151,7 @@ export const AppearanceSettings = observer(
                 id="open-theme-selector"
                 text={selectedName}
                 icon="tint"
-                onClick={() => this.props.toggleHasPopoverOpen()}
+                onClick={() => { throw new Error("STUB"); }}
                 disabled={isUsingSystemTheme}
               />
             </ThemeSelect>

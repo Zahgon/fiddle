@@ -12,17 +12,6 @@ export function setVersion(
   version: string,
 ): Promise<void> {
   return new Promise((resolve) => {
-    const { port1, port2 } = new MessageChannelMain();
-    ipcMainManager.postMessage(
-      IpcEvents.SET_VERSION,
-      version,
-      [port1],
-      webContents,
-    );
-    port2.once('message', () => {
-      resolve();
-      port2.close();
-    });
-    port2.start();
+      throw new Error("STUB");
   });
 }

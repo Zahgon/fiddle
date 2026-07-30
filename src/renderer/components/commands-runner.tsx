@@ -15,46 +15,19 @@ export class Runner extends React.Component<Record<string, never>> {
   private readonly src: string;
 
   constructor(props: Record<string, never>) {
-    super(props);
-    const initialTheme = window.app?.state?.theme ?? '';
-    const initialUsingSystemTheme =
-      window.app?.state?.isUsingSystemTheme ?? true;
-    this.src =
-      `${ISOLATED_RUN_BUTTON_ORIGIN}/` +
-      `?initialTheme=${encodeURIComponent(initialTheme)}` +
-      `&initialUsingSystemTheme=${initialUsingSystemTheme}`;
+      throw new Error("STUB");
   }
 
   public componentDidMount() {
-    window.addEventListener('message', this.handleMessage);
+      throw new Error("STUB");
   }
 
   public componentWillUnmount() {
-    window.removeEventListener('message', this.handleMessage);
+      throw new Error("STUB");
   }
 
   private handleMessage = (event: MessageEvent) => {
-    if (event.origin !== ISOLATED_RUN_BUTTON_ORIGIN) return;
-    if (event.source !== this.iframeRef.current?.contentWindow) return;
-    const data = event.data as {
-      type?: unknown;
-      width?: unknown;
-      value?: unknown;
-    } | null;
-    if (!data || typeof data.type !== 'string') return;
-
-    const iframe = this.iframeRef.current;
-    if (!iframe) return;
-
-    if (data.type === RESIZE_MESSAGE) {
-      // The iframe tells us the width of the content so we can resize accordingly
-      if (typeof data.width === 'number' && data.width > 0) {
-        iframe.style.width = `${Math.ceil(data.width)}px`;
-      }
-    } else if (data.type === FOCUS_MESSAGE) {
-      // Focus is inside the iframe but render the focus ring on the iframe itself
-      iframe.classList.toggle('has-focus', !!data.value);
-    }
+      throw new Error("STUB");
   };
 
   public render() {

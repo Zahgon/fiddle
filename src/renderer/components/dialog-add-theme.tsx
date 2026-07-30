@@ -39,43 +39,14 @@ export const AddThemeDialog = observer(
      * Handles a change of the file input.
      */
     public async onChangeFile(event: React.FormEvent<HTMLInputElement>) {
-      const { files } = event.target as HTMLInputElement;
-
-      this.setState({
-        file: files?.[0],
-      });
+        throw new Error("STUB");
     }
 
     /**
      * Handles the submission of the dialog.
      */
     public async onSubmit(): Promise<void> {
-      const { file } = this.state;
-      const { appState } = this.props;
-
-      const defaultTheme = await getTheme(appState, appState.theme);
-
-      if (!file) return;
-
-      try {
-        const editor = JSON.parse(await file.text());
-        if (!editor.base && !editor.rules)
-          throw Error('File does not match specifications'); // has to have these attributes
-        const newTheme: FiddleTheme = { ...defaultTheme };
-        newTheme.editor =
-          editor as Partial<MonacoType.editor.IStandaloneThemeData>;
-        // Use file.name if no editor.name, and strip file extension (should be .json)
-        const name: string = editor.name
-          ? editor.name
-          : file.name.slice(0, file.name.lastIndexOf('.'));
-        await this.createNewThemeFromMonaco(name, newTheme);
-      } catch (error) {
-        appState.showErrorDialog(`${error}, please pick a different file.`);
-        return;
-      }
-
-      this.onClose();
-      return;
+        throw new Error("STUB");
     }
 
     public async createNewThemeFromMonaco(
@@ -91,28 +62,12 @@ export const AddThemeDialog = observer(
     }
 
     get buttons() {
-      const canSubmit = !!this.state.file;
-
-      return [
-        <Button
-          icon="add"
-          key="submit"
-          disabled={!canSubmit}
-          onClick={this.onSubmit}
-          text="Add"
-        />,
-        <Button
-          icon="cross"
-          key="cancel"
-          onClick={this.onClose}
-          text="Cancel"
-        />,
-      ];
+        throw new Error("STUB");
     }
 
     public onClose() {
       this.setState(this.resetState, () => {
-        this.props.appState.isThemeDialogShowing = false;
+          throw new Error("STUB");
       });
     }
 

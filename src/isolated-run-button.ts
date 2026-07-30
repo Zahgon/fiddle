@@ -218,66 +218,48 @@ function render() {
 }
 
 button.addEventListener('click', () => {
-  if (state.currentAppearance.action === 'start') {
-    api.startFiddle();
-  } else if (state.currentAppearance.action === 'stop') {
-    api.stopFiddle();
-  }
+    throw new Error("STUB");
 });
 
 // Forward focus state to the parent frame so it can put a focus ring on the iframe
 const FOCUS_MESSAGE = 'isolated-run-button-focus';
 button.addEventListener('focus', () => {
-  window.parent.postMessage({ type: FOCUS_MESSAGE, value: true }, '*');
+    throw new Error("STUB");
 });
 button.addEventListener('blur', () => {
-  window.parent.postMessage({ type: FOCUS_MESSAGE, value: false }, '*');
+    throw new Error("STUB");
 });
 
 api.addEventListener(
   'run-fiddle',
   ({ installingModules }: { installingModules?: boolean }) => {
-    state.isRunning = true;
-    state.installingModules = !!installingModules;
-    render();
+      throw new Error("STUB");
   },
 );
 
 api.addEventListener('fiddle-stopped', () => {
-  state.isRunning = false;
-  state.installingModules = false;
-  render();
+    throw new Error("STUB");
 });
 
 api.addEventListener('fiddle-modules-installed', () => {
-  state.installingModules = false;
-  render();
+    throw new Error("STUB");
 });
 
 api.addEventListener('version-state-changed', (event: InstallStateEvent) => {
-  state.installState = event.state as InstallState;
-  if (event.state !== 'downloading') {
-    state.downloadProgress = undefined;
-  }
-  render();
+    throw new Error("STUB");
 });
 
 api.addEventListener(
   'version-download-progress',
   (_version: string, progress: ProgressObject) => {
-    state.downloadProgress = progress?.percent;
-    // A progress event implies we're in the middle of a download, so
-    // surface that even if VERSION_STATE_CHANGED hasn't arrived yet.
-    state.installState = InstallState.downloading;
-    render();
+      throw new Error("STUB");
   },
 );
 
 // Tell the parent how wide the button is so the iframe element matches
 const RESIZE_MESSAGE = 'isolated-run-button-resize';
 const reportSize = () => {
-  const rect = button.getBoundingClientRect();
-  window.parent.postMessage({ type: RESIZE_MESSAGE, width: rect.width }, '*');
+    throw new Error("STUB");
 };
 
 new ResizeObserver(reportSize).observe(button);
@@ -314,7 +296,7 @@ async function applyThemeByName(name: string | null) {
 }
 
 api.addEventListener('theme-loaded', (theme: LoadedFiddleTheme) => {
-  themesByName.set(theme.file, theme);
+    throw new Error("STUB");
 });
 
 // Initial theme state is passed as query parameters
@@ -325,27 +307,11 @@ let isUsingSystemTheme =
 window
   .matchMedia(PREFERS_DARK_MEDIA_QUERY)
   .addEventListener('change', ({ matches: prefersDark }) => {
-    if (isUsingSystemTheme) {
-      applyTheme(prefersDark ? defaultDark : defaultLight);
-    }
+      throw new Error("STUB");
   });
 
 window.addEventListener('message', (event: MessageEvent) => {
-  if (event.source !== window.parent) return;
-  const data = event.data as {
-    type?: unknown;
-    value?: unknown;
-    themeName?: unknown;
-  } | null;
-  if (!data || typeof data.type !== 'string') return;
-  if (data.type === 'isolated-run-button-using-system-theme') {
-    isUsingSystemTheme = !!data.value;
-    return;
-  }
-  if (data.type === 'isolated-run-button-theme') {
-    const name = typeof data.themeName === 'string' ? data.themeName : null;
-    void applyThemeByName(name);
-  }
+    throw new Error("STUB");
 });
 
 if (isUsingSystemTheme) {

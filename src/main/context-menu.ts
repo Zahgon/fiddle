@@ -20,16 +20,13 @@ export function getRunItems(): Array<MenuItemConstructorOptions> {
       label: 'Run Fiddle',
       enabled: isRunFiddleEnabled(),
       click: (_, focusedWindow) => {
-        if (focusedWindow)
-          startFiddle((focusedWindow as BrowserWindow).webContents).catch(
-            console.error,
-          );
+          throw new Error("STUB");
       },
     },
     {
       id: 'clear_console',
       label: 'Clear Console',
-      click: () => ipcMainManager.send(IpcEvents.CLEAR_CONSOLE),
+      click: () => { throw new Error("STUB"); },
     },
     {
       type: 'separator',
@@ -55,24 +52,21 @@ export function getMonacoItems({
       id: 'go_to_definition',
       label: 'Go to Definition',
       click() {
-        const cmd = ['editor.action.revealDefinition'];
-        ipcMainManager.send(IpcEvents.MONACO_EXECUTE_COMMAND, cmd);
+          throw new Error("STUB");
       },
     },
     {
       id: 'peek_definition',
       label: 'Peek Definition',
       click() {
-        const cmd = ['editor.action.peekDefinition'];
-        ipcMainManager.send(IpcEvents.MONACO_EXECUTE_COMMAND, cmd);
+          throw new Error("STUB");
       },
     },
     {
       id: 'references',
       label: 'Find References',
       click() {
-        const cmd = ['editor.action.referenceSearch.trigger'];
-        ipcMainManager.send(IpcEvents.MONACO_EXECUTE_COMMAND, cmd);
+          throw new Error("STUB");
       },
     },
     { type: 'separator' },
@@ -80,27 +74,21 @@ export function getMonacoItems({
       id: 'format_document',
       label: 'Format Document',
       click() {
-        const cmd = ['editor.action.formatDocument'];
-        ipcMainManager.send(IpcEvents.MONACO_EXECUTE_COMMAND, cmd);
+          throw new Error("STUB");
       },
     },
     {
       id: 'format_selection',
       label: 'Format Selection',
       click() {
-        const cmd = ['editor.action.formatSelection'];
-        ipcMainManager.send(IpcEvents.MONACO_EXECUTE_COMMAND, cmd);
+          throw new Error("STUB");
       },
     },
     {
       id: 'format_all',
       label: 'Format All Documents',
       click() {
-        const cmd = ['editor.action.formatSelection'];
-        ipcMainManager.send(IpcEvents.MONACO_EXECUTE_COMMAND, [
-          cmd,
-          { all: true },
-        ]);
+          throw new Error("STUB");
       },
     },
     { type: 'separator' },
@@ -121,15 +109,7 @@ export function getInspectItems(
       id: 'inspect',
       label: 'Inspect Element',
       click: () => {
-        browserWindow.webContents.inspectElement(x, y);
-
-        try {
-          if (browserWindow.webContents.isDevToolsOpened()) {
-            browserWindow.webContents.devToolsWebContents?.focus();
-          }
-        } catch (error) {
-          console.warn(`Tried to focus dev tools, but failed`, { error });
-        }
+          throw new Error("STUB");
       },
     },
   ];
@@ -140,36 +120,6 @@ export function getInspectItems(
  */
 export function createContextMenu(browserWindow: BrowserWindow) {
   browserWindow.webContents.on('context-menu', (_event, props) => {
-    const { editFlags } = props;
-
-    const template: Array<MenuItemConstructorOptions> = [
-      ...getRunItems(),
-      ...getMonacoItems(props),
-      {
-        id: 'cut',
-        label: 'Cut',
-        role: 'cut',
-        enabled: editFlags.canCut,
-      },
-      {
-        id: 'copy',
-        label: 'Copy',
-        role: 'copy',
-        enabled: editFlags.canCopy,
-      },
-      {
-        id: 'paste',
-        label: 'Paste',
-        role: 'paste',
-        enabled: editFlags.canPaste,
-      },
-      {
-        type: 'separator',
-      },
-      ...getInspectItems(browserWindow, props),
-    ];
-
-    const menu = Menu.buildFromTemplate(template);
-    menu.popup({});
+      throw new Error("STUB");
   });
 }

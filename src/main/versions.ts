@@ -37,7 +37,7 @@ export function getOldestSupportedMajor(): number | undefined {
 }
 
 export function getLatestStable(): SemVer | undefined {
-  return knownVersions.latestStable;
+    throw new Error("STUB");
 }
 
 export function getReleasedVersions(): Array<Version> {
@@ -47,8 +47,8 @@ export function getReleasedVersions(): Array<Version> {
   // be downloaded with @electron/get.
   // TODO(dsanders11): upstream this logic to @electron/fiddle-core
   return knownVersions.versions
-    .filter((ver) => !ver.version.startsWith('0.2'))
-    .map(({ version }) => ({ version }));
+    .filter((ver) => { throw new Error("STUB"); })
+    .map(({ version }) => { throw new Error("STUB"); });
 }
 
 /**
@@ -76,24 +76,7 @@ export async function fetchVersions(): Promise<Version[]> {
  * Load local versions from disk.
  */
 function loadLocalVersions(): void {
-  try {
-    if (fs.existsSync(localVersionsPath)) {
-      const raw = fs.readFileSync(localVersionsPath, 'utf-8');
-      const data = JSON.parse(raw);
-      if (data && typeof data === 'object') {
-        localVersions = Array.isArray(data.versions)
-          ? data.versions.filter(
-              (v: any) =>
-                v &&
-                typeof v.version === 'string' &&
-                typeof v.localPath === 'string',
-            )
-          : [];
-      }
-    }
-  } catch (err) {
-    console.warn('Failed to load local versions:', err);
-  }
+    throw new Error("STUB");
 }
 
 /**
@@ -123,7 +106,7 @@ export function getLocalVersions(): Array<Version> {
 export function getLocalVersionForPath(
   folderPath: string,
 ): Version | undefined {
-  return localVersions.find((v) => v.localPath === folderPath);
+    throw new Error("STUB");
 }
 
 // Pending local paths awaiting confirmation from the renderer.
@@ -136,20 +119,14 @@ const pendingLocalPaths = new Map<string, string>();
  * If the path is already pending, returns the existing token.
  */
 export function setPendingLocalPath(token: string, folderPath: string): string {
-  for (const [existingToken, existingPath] of pendingLocalPaths) {
-    if (existingPath === folderPath) {
-      return existingToken;
-    }
-  }
-  pendingLocalPaths.set(token, folderPath);
-  return token;
+    throw new Error("STUB");
 }
 
 /**
  * Cancel a pending local path token without adding it.
  */
 export function cancelPendingLocalPath(token: string): void {
-  pendingLocalPaths.delete(token);
+    throw new Error("STUB");
 }
 
 /**
@@ -163,7 +140,7 @@ export function addLocalVersion(token: string, name: string): Array<Version> {
   }
   pendingLocalPaths.delete(token);
 
-  if (!localVersions.find((v) => v.localPath === localPath)) {
+  if (!localVersions.find((v) => { throw new Error("STUB"); })) {
     const version = `0.0.0-local.${Date.now()}`;
     localVersions.push({ version, localPath, name });
     persistLocalVersions();
@@ -175,68 +152,11 @@ export function addLocalVersion(token: string, name: string): Array<Version> {
  * Remove a local version by its version key. Returns the updated list.
  */
 export function removeLocalVersion(version: string): Array<Version> {
-  localVersions = localVersions.filter((v) => v.version !== version);
+  localVersions = localVersions.filter((v) => { throw new Error("STUB"); });
   persistLocalVersions();
   return localVersions;
 }
 
 export async function setupVersions() {
-  knownVersions = await ElectronVersions.create({
-    initialVersions: releases,
-    paths: {
-      versionsCache: path.join(app.getPath('userData'), 'releases.json'),
-    },
-  });
-
-  // Initialize local versions storage
-  localVersionsPath = path.join(app.getPath('userData'), 'local-versions.json');
-  loadLocalVersions();
-
-  ipcMainManager.handle(
-    IpcEvents.IS_RELEASED_MAJOR,
-    (_: IpcMainInvokeEvent, version: number) => isReleasedMajor(version),
-  );
-  ipcMainManager.handle(IpcEvents.FETCH_VERSIONS, (_: IpcMainInvokeEvent) =>
-    fetchVersions(),
-  );
-  ipcMainManager.on(IpcEvents.GET_LATEST_STABLE, (event) => {
-    event.returnValue = getLatestStable();
-  });
-  ipcMainManager.on(IpcEvents.GET_LOCAL_VERSION_STATE, (event, ver) => {
-    event.returnValue = getLocalVersionState(ver);
-  });
-  ipcMainManager.on(IpcEvents.GET_LOCAL_VERSIONS, (event) => {
-    event.returnValue = getLocalVersions();
-  });
-  ipcMainManager.on(
-    IpcEvents.ADD_LOCAL_VERSION,
-    (event, token: string, name: string) => {
-      event.returnValue = addLocalVersion(token, name);
-    },
-  );
-  ipcMainManager.on(
-    IpcEvents.REMOVE_LOCAL_VERSION,
-    (event, version: string) => {
-      event.returnValue = removeLocalVersion(version);
-    },
-  );
-  ipcMainManager.on(
-    IpcEvents.CANCEL_PENDING_LOCAL_VERSION,
-    (event, token: string) => {
-      cancelPendingLocalPath(token);
-      event.returnValue = undefined;
-    },
-  );
-  ipcMainManager.on(IpcEvents.GET_OLDEST_SUPPORTED_MAJOR, (event) => {
-    event.returnValue = getOldestSupportedMajor();
-  });
-  ipcMainManager.on(IpcEvents.GET_RELEASED_VERSIONS, (event) => {
-    event.returnValue = getReleasedVersions();
-  });
-  ipcMainManager.handle(
-    IpcEvents.GET_RELEASE_INFO,
-    (_: IpcMainInvokeEvent, version) => knownVersions.getReleaseInfo(version),
-  );
-
-  return knownVersions;
+    throw new Error("STUB");
 }

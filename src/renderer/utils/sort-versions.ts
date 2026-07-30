@@ -12,16 +12,7 @@ const preTags = ['nightly', 'alpha', 'beta'];
  * @returns 0 | 1 | -1
  */
 const preCompare = (a: string[], b: string[]) => {
-  const first = preTags.indexOf(a[0]);
-  const second = preTags.indexOf(b[0]);
-  if (first === second) {
-    // Whether the prerelease tag number is the same
-    // e.g. alpha.1 & alpha.1.
-    if (a[1] === b[1]) return 0;
-    return a[1] > b[1] ? 1 : -1;
-  }
-
-  return first > second ? 1 : -1;
+    throw new Error("STUB");
 };
 
 /**
@@ -38,22 +29,7 @@ export function semverCompare(
   a: string | semver.SemVer,
   b: string | semver.SemVer,
 ) {
-  const pA = typeof a === 'string' ? semver.parse(a) : a;
-  const pB = typeof b === 'string' ? semver.parse(b) : b;
-
-  const sameMain = (a: semver.SemVer | null, b: semver.SemVer | null) =>
-    a !== null && b !== null && a.compareMain(b) === 0;
-
-  // Check that major.minor.patch are the same for a and b.
-  if (
-    sameMain(pA, pB) &&
-    pA?.prerelease.length !== 0 &&
-    pB?.prerelease.length !== 0
-  ) {
-    return preCompare(pA?.prerelease as string[], pB?.prerelease as string[]);
-  }
-
-  return semver.compare(a, b);
+    throw new Error("STUB");
 }
 
 /**
@@ -62,20 +38,5 @@ export function semverCompare(
  * by sorting them to the end.
  */
 export function sortVersions(versions: RunnableVersion[]): RunnableVersion[] {
-  type VerSemRun = [
-    ver: string,
-    sem: semver.SemVer | null,
-    run: RunnableVersion,
-  ];
-
-  const sorted = versions
-    .map((run): VerSemRun => [run.version, semver.parse(run.version), run])
-    .sort(([vera, sema], [verb, semb]) => {
-      if (sema && semb) return -semverCompare(sema, semb);
-      if (sema && !semb) return -1;
-      if (!sema && semb) return 1;
-      return vera.localeCompare(verb);
-    });
-  sorted.forEach(([_1, _2, run], idx) => (versions[idx] = run));
-  return versions;
+    throw new Error("STUB");
 }

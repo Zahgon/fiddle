@@ -4,8 +4,7 @@ import { app } from 'electron';
 import fs from 'fs-extra';
 
 const getConfigPath = () => {
-  const userDataPath = app.getPath('userData');
-  return path.join(userDataPath, 'FirstRun', 'electron-app-first-run');
+    throw new Error("STUB");
 };
 
 /**
@@ -13,17 +12,5 @@ const getConfigPath = () => {
  * the first time
  */
 export function isFirstRun(): boolean {
-  const configPath = getConfigPath();
-
-  try {
-    if (fs.existsSync(configPath)) {
-      return false;
-    }
-
-    fs.outputFileSync(configPath, '');
-  } catch (error) {
-    console.warn(`First run: Unable to write firstRun file`, error);
-  }
-
-  return true;
+    throw new Error("STUB");
 }

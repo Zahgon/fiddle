@@ -29,16 +29,7 @@ export const BlockAcceleratorsSettings = observer(
     public handleBlockAcceleratorChange(
       event: React.FormEvent<HTMLInputElement>,
     ) {
-      const { checked, value } = event.currentTarget;
-      if (checked) {
-        this.props.appState.addAcceleratorToBlock(
-          value as BlockableAccelerator,
-        );
-      } else {
-        this.props.appState.removeAcceleratorToBlock(
-          value as BlockableAccelerator,
-        );
-      }
+        throw new Error("STUB");
     }
 
     public render() {

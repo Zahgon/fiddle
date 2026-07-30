@@ -18,7 +18,7 @@ const squirrelPath = path.resolve(
 
 const handlePotentialProtocolLaunch = (url: string) => {
   if (!app.isReady()) {
-    app.once('ready', () => handlePotentialProtocolLaunch(url));
+    app.once('ready', () => { throw new Error("STUB"); });
     return;
   }
 
@@ -68,13 +68,13 @@ const handlePotentialProtocolLaunch = (url: string) => {
     default:
       return;
   }
-  getOrCreateMainWindow().then((window) => window.focus());
+  getOrCreateMainWindow().then((window) => { throw new Error("STUB"); });
 };
 
 const isProtocolString = (arg: string) => arg.startsWith(`${PROTOCOL}://`);
 
 export const findProtocolArg = (argv: string[]) => {
-  return argv.find((arg) => isProtocolString(arg));
+  return argv.find((arg) => { throw new Error("STUB"); });
 };
 
 const scanArgv = (argv: Array<string>) => {
@@ -97,23 +97,16 @@ export const listenForProtocolHandler = () => {
 
   app.removeAllListeners('open-url');
   app.on('open-url', (_, url) => {
-    if (isProtocolString(url)) {
-      handlePotentialProtocolLaunch(url);
-    }
+      throw new Error("STUB");
   });
 
   app.removeAllListeners('second-instance');
   app.on('second-instance', (_event, commandLine, _workingDirectory) => {
-    // Someone tried to run a second instance
-    scanArgv(commandLine);
+      throw new Error("STUB");
   });
 
   app.on('open-file', async (_, path) => {
-    if (!path || path.length < 1) {
-      return;
-    }
-    const files = await openFiddle(path);
-    ipcMainManager.send(IpcEvents.FS_OPEN_FIDDLE, [path, files]);
+      throw new Error("STUB");
   });
 
   // pass protocol URL via npm start args in dev mode
@@ -125,8 +118,5 @@ export const listenForProtocolHandler = () => {
 };
 
 export const setupProtocolHandler = () => {
-  if (process.platform === 'win32' && !fs.existsSync(squirrelPath)) return;
-  if (!app.isDefaultProtocolClient(PROTOCOL, squirrelPath)) {
-    app.setAsDefaultProtocolClient(PROTOCOL, squirrelPath);
-  }
+    throw new Error("STUB");
 };

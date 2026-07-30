@@ -36,21 +36,7 @@ export class App {
   public readonly electronTypes: ElectronTypes;
 
   constructor() {
-    const legacyLocalVersionsDiscarded = discardLocalVersionsFromLocalStorage();
-
-    this.state = new AppState(getElectronVersions());
-    this.fileManager = new FileManager(this.state);
-    this.remoteLoader = new RemoteLoader(this.state);
-    this.runner = new Runner(this.state);
-    this.getEditorValues = this.getEditorValues.bind(this);
-
-    this.electronTypes = new ElectronTypes(window.monaco);
-
-    if (legacyLocalVersionsDiscarded) {
-      void this.state.showInfoDialog(
-        'Fiddle has changed how it stores local Electron versions. Existing local versions have been removed and must be re-added.',
-      );
-    }
+      throw new Error("STUB");
   }
 
   private confirmReplaceUnsaved(): Promise<boolean> {
@@ -86,10 +72,7 @@ export class App {
     // to fire, but that gets complicated with recycled editors with changed
     // values. This is just easier for now.
     await new Promise<void>((resolve) =>
-      setTimeout(async () => {
-        await this.state.editorMosaic.markAsSaved();
-        resolve();
-      }, 100),
+      { throw new Error("STUB"); },
     );
 
     this.state.gistId = gistId || '';
@@ -148,7 +131,7 @@ export class App {
 
     // The AppState constructor started loading a fiddle.
     // Wait for it here so the UI doesn't start life in `nonIdealState`.
-    await when(() => this.state.editorMosaic.files.size !== 0);
+    await when(() => { throw new Error("STUB"); });
 
     const app = (
       <div className="container">
@@ -173,19 +156,15 @@ export class App {
     // Octokit instance.
     window.ElectronFiddle.gitHubCheckAuth()
       .then(({ login, hasToken }) => {
-        // Only update gitHubLogin if login succeeded or if there's no token.
-        // If we're offline (!login && hasToken), keep the current username.
-        if (login || !hasToken) {
-          this.state.gitHubLogin = login;
-        }
+          throw new Error("STUB");
       })
-      .catch((e) => console.warn('Failed to check GitHub auth status', e))
+      .catch((e) => { throw new Error("STUB"); })
       .finally(() => {
-        window.ElectronFiddle.sendReady();
+          throw new Error("STUB");
       });
 
     window.ElectronFiddle.addEventListener('set-show-me-template', () => {
-      window.ElectronFiddle.setShowMeTemplate(this.state.templateName);
+        throw new Error("STUB");
     });
 
     return rendered;
@@ -195,8 +174,8 @@ export class App {
     const updateTypes = () =>
       this.electronTypes.setVersion(this.state.currentElectronVersion);
     reaction(
-      () => this.state.version,
-      () => updateTypes(),
+      () => { throw new Error("STUB"); },
+      () => { throw new Error("STUB"); },
     );
     updateTypes();
   }
@@ -204,29 +183,9 @@ export class App {
   public async setupThemeListeners() {
     // match theme to system when box is ticked
     reaction(
-      () => this.state.isUsingSystemTheme,
+      () => { throw new Error("STUB"); },
       (isUsingSystemTheme) => {
-        if (isUsingSystemTheme) {
-          window.ElectronFiddle.setNativeTheme('system');
-          this.loadTheme(getCurrentTheme().file);
-        } else {
-          this.loadTheme(this.state.theme);
-        }
-
-        // Tell every isolated-actions:// iframe whether we're using system theme
-        for (const iframe of Array.from(
-          document.querySelectorAll<HTMLIFrameElement>(
-            'iframe[src^="isolated-actions://"]',
-          ),
-        )) {
-          iframe.contentWindow?.postMessage(
-            {
-              type: 'isolated-run-button-using-system-theme',
-              value: isUsingSystemTheme,
-            },
-            new URL(iframe.src).origin,
-          );
-        }
+          throw new Error("STUB");
       },
     );
 
@@ -234,9 +193,7 @@ export class App {
     window
       .matchMedia(PREFERS_DARK_MEDIA_QUERY)
       .addEventListener('change', ({ matches: prefersDark }) => {
-        if (this.state.isUsingSystemTheme) {
-          this.loadTheme((prefersDark ? defaultDark : defaultLight).file);
-        }
+          throw new Error("STUB");
       });
   }
 
@@ -297,11 +254,10 @@ export class App {
 
   public setupOfflineListener(): void {
     window.addEventListener('online', async () => {
-      this.state.isOnline = true;
-      this.state.setVersion(this.state.version);
+        throw new Error("STUB");
     });
     window.addEventListener('offline', () => {
-      this.state.isOnline = false;
+        throw new Error("STUB");
     });
   }
 
@@ -321,50 +277,16 @@ export class App {
     // so when setting document title, wait a tick to avoid flicker.
     let titleIdle: any;
     reaction(
-      () => this.state.title,
+      () => { throw new Error("STUB"); },
       (title) => {
-        clearTimeout(titleIdle);
-        titleIdle = setTimeout(() => {
-          document.title = title;
-          titleIdle = null;
-        });
+          throw new Error("STUB");
       },
     );
   }
 
   public setupUnloadListeners() {
     autorun(async () => {
-      const { state } = this;
-      const { editorMosaic } = state;
-
-      if (!editorMosaic.isEdited) {
-        window.onbeforeunload = null;
-        return;
-      }
-
-      window.onbeforeunload = (e: BeforeUnloadEvent) => {
-        // On Mac OS, quitting can be triggered from the dock,
-        // show the window so the dialog is visible
-        setTimeout(() => {
-          this.confirmExitUnsaved().then((quit) => {
-            if (quit) {
-              // isQuitting checks if we're trying to quit the app
-              // or just close the window
-              if (state.isQuitting) {
-                window.ElectronFiddle.confirmQuit();
-              }
-              window.onbeforeunload = null;
-              window.close();
-            } else {
-              state.isQuitting = false;
-            }
-          });
-          window.ElectronFiddle.showWindow();
-        });
-
-        // return value doesn't matter, we just want to cancel the event
-        e.returnValue = false;
-      };
+        throw new Error("STUB");
     });
   }
 }

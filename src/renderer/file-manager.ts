@@ -18,43 +18,7 @@ import {
 
 export class FileManager {
   constructor(private readonly appState: AppState) {
-    this.getFiles = this.getFiles.bind(this);
-    this.openFiddle = this.openFiddle.bind(this);
-
-    window.ElectronFiddle.removeAllListeners('open-fiddle');
-    window.ElectronFiddle.removeAllListeners('open-template');
-    window.ElectronFiddle.removeAllListeners('saved-local-fiddle');
-
-    window.ElectronFiddle.addEventListener('open-fiddle', (filePath, files) => {
-      this.openFiddle(filePath, files);
-    });
-
-    window.ElectronFiddle.addEventListener(
-      'open-template',
-      (templateName, editorValues) => {
-        window.app.replaceFiddle(editorValues, {
-          templateName,
-        });
-      },
-    );
-
-    window.ElectronFiddle.addEventListener(
-      'saved-local-fiddle',
-      async (filePath) => {
-        const { localPath } = this.appState;
-
-        if (filePath !== localPath) {
-          this.appState.localPath = filePath;
-          this.appState.gistId = undefined;
-          this.appState.activeGistRevision = undefined;
-        }
-        window.ElectronFiddle.setShowMeTemplate();
-        this.appState.templateName = undefined;
-        await this.appState.editorMosaic.markAsSaved();
-      },
-    );
-
-    window.ElectronFiddle.onGetFiles(this.getFiles);
+      throw new Error("STUB");
   }
 
   /**
@@ -84,7 +48,7 @@ export class FileManager {
         // If the project specifies an Electron version, we want to tell Fiddle to run
         // it with that version by default.
         const electronDeps = Object.keys(deps).filter((d) =>
-          ['electron-nightly', 'electron'].includes(d),
+          { throw new Error("STUB"); },
         );
         for (const dep of electronDeps) {
           // Strip off semver range prefixes, e.g:
@@ -142,7 +106,7 @@ export class FileManager {
     } as const;
 
     for (const transform of transforms.map(
-      (operation: FileTransformOperation) => transformers[operation],
+      (operation: FileTransformOperation) => { throw new Error("STUB"); },
     )) {
       try {
         console.log(`getFiles: Applying ${transform.name}`);
@@ -166,7 +130,6 @@ export class FileManager {
     options: PackageJsonOptions,
     transforms?: Array<FileTransformOperation>,
   ): Promise<string> {
-    const { files } = await this.getFiles(options, transforms);
-    return window.ElectronFiddle.saveFilesToTemp(files);
+      throw new Error("STUB");
   }
 }

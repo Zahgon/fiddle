@@ -102,37 +102,9 @@ export async function packageRun(
   { dir, packageManager }: PMOperationOptions,
   command: string,
 ): Promise<string> {
-  const pm = packageManager === 'npm' ? 'npm' : 'yarn';
-  const result = await execFile(dir, pm, ['run', command]);
-
-  shell.showItemInFolder(path.join(dir, 'out'));
-
-  return result;
+    throw new Error("STUB");
 }
 
 export async function setupNpm() {
-  ipcMainManager.handle(
-    IpcEvents.NPM_ADD_MODULES,
-    (
-      _: IpcMainInvokeEvent,
-      { dir, packageManager, useSocketFirewall }: PMOperationOptions,
-      ...names: Array<string>
-    ) => addModules({ dir, packageManager, useSocketFirewall }, ...names),
-  );
-  ipcMainManager.handle(
-    IpcEvents.NPM_IS_PM_INSTALLED,
-    (
-      _: IpcMainInvokeEvent,
-      packageManager: IPackageManager,
-      ignoreCache?: boolean,
-    ) => getIsPackageManagerInstalled(packageManager, ignoreCache),
-  );
-  ipcMainManager.handle(
-    IpcEvents.NPM_PACKAGE_RUN,
-    (
-      _: IpcMainInvokeEvent,
-      { dir, packageManager }: PMOperationOptions,
-      command: string,
-    ) => packageRun({ dir, packageManager }, command),
-  );
+    throw new Error("STUB");
 }

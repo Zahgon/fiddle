@@ -45,58 +45,9 @@ export const SidebarFileTree = observer(
       const { files, focusedFile } = editorMosaic;
 
       const fileList: TreeNodeInfo[] = Array.from(files)
-        .sort((a, b) => a[0].localeCompare(b[0]))
+        .sort((a, b) => { throw new Error("STUB"); })
         .map(([editorId, presence], index) => {
-          const visibilityIcon =
-            presence !== EditorPresence.Hidden ? 'eye-open' : 'eye-off';
-
-          return {
-            isSelected: focusedFile === editorId,
-            id: index,
-            hasCaret: false,
-            icon: 'document',
-            label: (
-              <ContextMenu2
-                className="pointer"
-                onClick={() => this.setFocusedFile(editorId)}
-                content={
-                  <Menu>
-                    <MenuItem
-                      icon="redo"
-                      text="Rename"
-                      intent="primary"
-                      onClick={() => this.renameEditor(editorId)}
-                    />
-                    <MenuItem
-                      disabled={isMainEntryPoint(editorId)}
-                      icon="remove"
-                      text="Delete"
-                      intent="danger"
-                      onClick={() => this.removeEditor(editorId)}
-                    />
-                  </Menu>
-                }
-              >
-                {String(editorId)}
-              </ContextMenu2>
-            ),
-            secondaryLabel: (
-              <ButtonGroup>
-                <Tooltip2
-                  content="Toggle Visibility"
-                  minimal={true}
-                  hoverOpenDelay={1000}
-                >
-                  <Button
-                    minimal
-                    onClick={() => this.toggleVisibility(editorId)}
-                  >
-                    <Icon icon={visibilityIcon} />
-                  </Button>
-                </Tooltip2>
-              </ButtonGroup>
-            ),
-          };
+            throw new Error("STUB");
         });
 
       if (this.state.action === 'add') {
@@ -109,17 +60,12 @@ export const SidebarFileTree = observer(
               className={classNames(Classes.INPUT, Classes.FILL, Classes.SMALL)}
               style={{ width: `100%`, padding: 0 }}
               onKeyDown={(e) => {
-                if (e.key === 'Escape') {
-                  e.currentTarget.blur();
-                } else if (e.key === 'Enter') {
-                  this.createEditor(e.currentTarget.value as EditorId);
-                  e.currentTarget.blur();
-                }
+                  throw new Error("STUB");
               }}
               id="new-file-input"
               autoFocus
               onBlur={() => {
-                this.setState({ action: 'default' });
+                  throw new Error("STUB");
               }}
             />
           ),
@@ -144,7 +90,7 @@ export const SidebarFileTree = observer(
                 <Button
                   small
                   icon="add"
-                  onClick={() => this.setState({ action: 'add' })}
+                  onClick={() => { throw new Error("STUB"); }}
                 />
               </Tooltip2>
               <Tooltip2

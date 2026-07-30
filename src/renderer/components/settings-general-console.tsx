@@ -25,8 +25,7 @@ export const ConsoleSettings = observer(
      * before fiddle is executed.
      */
     public handleClearOnRunChange(event: React.FormEvent<HTMLInputElement>) {
-      const { checked } = event.currentTarget;
-      this.props.appState.isClearingConsoleOnRun = checked;
+        throw new Error("STUB");
     }
 
     public render() {

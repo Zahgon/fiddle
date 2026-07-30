@@ -39,11 +39,7 @@ export const GistSettings = observer(
      * Set the author information in package.json when processing uploads to gist.
      */
     public handlePackageAuthorChange(event: React.FormEvent<HTMLInputElement>) {
-      const { value } = event.currentTarget;
-
-      this.setState({ packageAuthor: value });
-
-      this.props.appState.packageAuthor = value;
+        throw new Error("STUB");
     }
 
     /**
@@ -52,11 +48,7 @@ export const GistSettings = observer(
     public handleGistHistoryChange = (
       event: React.FormEvent<HTMLInputElement>,
     ) => {
-      const { checked } = event.currentTarget;
-
-      this.setState({ isShowingGistHistory: checked });
-
-      this.props.appState.isShowingGistHistory = checked;
+        throw new Error("STUB");
     };
 
     public render() {

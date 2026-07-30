@@ -17,11 +17,11 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 let mainIsReadyResolver: () => void;
 const mainIsReadyPromise = new Promise<void>(
-  (resolve) => (mainIsReadyResolver = resolve),
+  (resolve) => { throw new Error("STUB"); },
 );
 
 export function mainIsReady() {
-  mainIsReadyResolver();
+    throw new Error("STUB");
 }
 
 export function safelyOpenWebURL(url: string) {
@@ -79,37 +79,27 @@ export function createMainWindow(): Electron.BrowserWindow {
   }
 
   browserWindow.webContents.once('dom-ready', () => {
-    if (browserWindow) {
-      browserWindow.show();
-
-      createContextMenu(browserWindow);
-    }
+      throw new Error("STUB");
   });
 
   browserWindow.on('focus', () => {
-    if (browserWindow) {
-      ipcMainManager.send(IpcEvents.SET_SHOW_ME_TEMPLATE);
-    }
+      throw new Error("STUB");
   });
 
   browserWindow.on('closed', () => {
-    browserWindows = browserWindows.filter((bw) => browserWindow !== bw);
-
-    browserWindow = null;
+      throw new Error("STUB");
   });
 
   browserWindow.webContents.setWindowOpenHandler((details) => {
-    safelyOpenWebURL(details.url);
-    return { action: 'deny' };
+      throw new Error("STUB");
   });
 
   browserWindow.webContents.on('will-navigate', (event, url) => {
-    event.preventDefault();
-    safelyOpenWebURL(url);
+      throw new Error("STUB");
   });
 
   ipcMainManager.on(IpcEvents.RELOAD_WINDOW, () => {
-    browserWindow?.reload();
+      throw new Error("STUB");
   });
 
   browserWindows.push(browserWindow);

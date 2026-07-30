@@ -31,8 +31,8 @@ export class ElectronTypes {
 
   private getWindowsForLocalPath(localPath: string): BrowserWindow[] {
     return Array.from(this.localPaths.entries())
-      .filter(([, path]) => path === localPath)
-      .map(([window]) => window);
+      .filter(([, path]) => { throw new Error("STUB"); })
+      .map(([window]) => { throw new Error("STUB"); });
   }
 
   private notifyElectronTypesChanged(
@@ -73,12 +73,12 @@ export class ElectronTypes {
         // If no watcher for that path yet, create it
         if (!this.watchers.has(dir)) {
           const watcher = watch(file, () =>
-            this.notifyElectronTypesChanged(dir, file, version),
+            { throw new Error("STUB"); },
           );
           await once(watcher, 'ready');
           this.watchers.set(dir, watcher);
         }
-        window.once('close', () => this.unwatch(window));
+        window.once('close', () => { throw new Error("STUB"); });
       } catch (err) {
         console.debug(`Unable to watch "${file}" for changes: ${err}`);
       }
@@ -126,7 +126,7 @@ export class ElectronTypes {
 
     try {
       const files = (await readdir(dir, { recursive: true })).filter((f) =>
-        f.endsWith('.d.ts'),
+        { throw new Error("STUB"); },
       );
 
       for (const file of files) {
@@ -219,15 +219,11 @@ export class ElectronTypes {
     await Promise.all(
       fileJson
         .flatMap((item: { files?: { path: string }[]; path: string }) => {
-          return item.files ? item.files.map((f: any) => f.path) : item.path;
+            throw new Error("STUB");
         })
-        .filter((path: string) => path.endsWith('.d.ts'))
+        .filter((path: string) => { throw new Error("STUB"); })
         .map(async (path: string) => {
-          const res = await fetch(
-            `https://unpkg.com/@types/node@${downloadVersion}${path}`,
-          );
-          const text = await res.text();
-          fs.outputFileSync(`${dir}${path}`, text);
+            throw new Error("STUB");
         }),
     );
 
@@ -251,39 +247,5 @@ export class ElectronTypes {
 }
 
 export async function setupTypes(knownVersions: ElectronVersions) {
-  const userDataPath = app.getPath('userData');
-
-  electronTypes = new ElectronTypes(
-    knownVersions,
-    path.join(userDataPath, 'electron-typedef'),
-    path.join(userDataPath, 'nodejs-typedef'),
-  );
-
-  ipcMainManager.handle(
-    IpcEvents.GET_ELECTRON_TYPES,
-    (event: IpcMainInvokeEvent, ver: RunnableVersion) => {
-      return electronTypes.getElectronTypes(
-        BrowserWindow.fromWebContents(event.sender)!,
-        ver,
-      );
-    },
-  );
-  ipcMainManager.handle(
-    IpcEvents.GET_NODE_TYPES,
-    (_: IpcMainInvokeEvent, version: string) => {
-      return electronTypes.getNodeTypes(version);
-    },
-  );
-  ipcMainManager.handle(
-    IpcEvents.UNCACHE_TYPES,
-    (_: IpcMainInvokeEvent, ver: RunnableVersion) => {
-      electronTypes.uncache(ver);
-    },
-  );
-  ipcMainManager.handle(
-    IpcEvents.UNWATCH_ELECTRON_TYPES,
-    (event: IpcMainInvokeEvent) => {
-      electronTypes.unwatch(BrowserWindow.fromWebContents(event.sender)!);
-    },
-  );
+    throw new Error("STUB");
 }

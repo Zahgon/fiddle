@@ -13,31 +13,5 @@ export function getVersionRange(
   newVersion: string,
   versions: RunnableVersion[],
 ): RunnableVersion[] {
-  // ensure that oldVersion is old than newVersion
-  if (semverCompare(oldVersion, newVersion) > 0) {
-    [oldVersion, newVersion] = [newVersion, oldVersion];
-  }
-
-  const oldIdx = versions.findIndex((v) => v.version === oldVersion);
-  if (oldIdx === -1) {
-    console.warn(`getVersionRange: Version not found: ${oldVersion}`);
-    return [];
-  }
-
-  const newIdx = versions.findIndex((v) => v.version === newVersion);
-  if (newIdx === -1) {
-    console.warn(`getVersionRange: Version not found: ${newVersion}`);
-    return [];
-  }
-
-  versions = versions.slice(
-    Math.min(oldIdx, newIdx),
-    Math.max(oldIdx, newIdx) + 1,
-  );
-
-  if (oldIdx > newIdx) {
-    versions.reverse();
-  }
-
-  return versions;
+    throw new Error("STUB");
 }

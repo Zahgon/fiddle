@@ -57,7 +57,7 @@ export class AppState {
   });
 
   private genericTypeGuard(_: never, errorMessage: string): never {
-    throw new Error(errorMessage);
+      throw new Error("STUB");
   }
 
   // -- Persisted settings ------------------
@@ -193,384 +193,19 @@ export class AppState {
 
       // the RunnableVersion proxies can't be cloned by structuredClone,
       // so we have to create plain objects out of them
-      payload: versions.map((version) => ({ ...version })),
+      payload: versions.map((version) => { throw new Error("STUB"); }),
     });
   }
 
   constructor(versions: RunnableVersion[]) {
-    makeObservable<AppState, 'setPageHash' | 'setVersionStates'>(this, {
-      Bisector: observable,
-      acceleratorsToBlock: observable,
-      activeGistAction: observable,
-      addAcceleratorToBlock: action,
-      addLocalVersion: action,
-      addNewVersions: action,
-      channelsToShow: observable,
-      clearConsole: action,
-      currentElectronVersion: computed,
-      disableTour: action,
-      downloadVersion: action,
-      editorMosaic: observable,
-      electronMirror: observable,
-      environmentVariables: observable,
-      executionFlags: observable,
-      flushOutput: action,
-      fontFamily: observable,
-      fontSize: observable,
-      genericDialogLastInput: observable,
-      genericDialogLastResult: observable,
-      genericDialogOptions: observable,
-      gistId: observable,
-      activeGistRevision: observable,
-      gitHubLogin: observable,
-      gitHubPublishAsPublic: observable,
-      hideChannels: action,
-      isAddVersionDialogShowing: observable,
-      isAutoBisecting: observable,
-      isBisectCommandShowing: observable,
-      isBisectDialogShowing: observable,
-      isClearingConsoleOnRun: observable,
-      isConsoleShowing: observable,
-      isEnablingElectronLogging: observable,
-      isGenericDialogShowing: observable,
-      isHistoryShowing: observable,
-      isKeepingUserDataDirs: observable,
-      isOnline: observable,
-      isPublishingGistAsRevision: observable,
-      isUsingSocketFirewall: observable,
-      isQuitting: observable,
-      isRunning: observable,
-      isSettingsShowing: observable,
-      isThemeDialogShowing: observable,
-      isTokenDialogShowing: observable,
-      isTourShowing: observable,
-      isUpdatingElectronVersions: observable,
-      isDeletingAll: observable,
-      isDownloadingAll: observable,
-      isShowingGistHistory: observable,
-      isUsingSystemTheme: observable,
-      localPath: observable,
-      modules: observable,
-      output: observable,
-      packageAuthor: observable,
-      packageManager: observable,
-      pushError: action,
-      pushOutput: action,
-      removeAcceleratorToBlock: action,
-      removeVersion: action,
-      resetView: action,
-      setIsQuitting: action,
-      setPageHash: action,
-      setTheme: action,
-      setVersion: action,
-      setVersionStates: action,
-      showChannels: action,
-      showConfirmDialog: action,
-      showErrorDialog: action,
-      showGenericDialog: action,
-      showInfoDialog: action,
-      showInputDialog: action,
-      showObsoleteVersions: observable,
-      showTour: action,
-      showUndownloadedVersions: observable,
-      signOutGitHub: action,
-      templateName: observable,
-      theme: observable,
-      title: computed,
-      toggleAddMonacoThemeDialog: action,
-      toggleAddVersionDialog: action,
-      toggleAuthDialog: action,
-      toggleBisectCommands: action,
-      toggleBisectDialog: action,
-      toggleConsole: action,
-      toggleSettings: action,
-      updateDownloadProgress: action,
-      updateElectronVersions: action,
-      version: observable,
-      versions: observable,
-      versionsToShow: computed,
-      changeRunnableState: action,
-      startDownloadingAll: action,
-      stopDownloadingAll: action,
-      startDeletingAll: action,
-      stopDeletingAll: action,
-    });
-
-    // Bind all actions
-    this.downloadVersion = this.downloadVersion.bind(this);
-    this.pushError = this.pushError.bind(this);
-    this.pushOutput = this.pushOutput.bind(this);
-    this.flushOutput = this.flushOutput.bind(this);
-    this.getVersion = this.getVersion.bind(this);
-    this.hasVersion = this.hasVersion.bind(this);
-    this.removeVersion = this.removeVersion.bind(this);
-    this.setVersion = this.setVersion.bind(this);
-    this.showTour = this.showTour.bind(this);
-    this.signOutGitHub = this.signOutGitHub.bind(this);
-    this.toggleBisectCommands = this.toggleBisectCommands.bind(this);
-    this.toggleAuthDialog = this.toggleAuthDialog.bind(this);
-    this.toggleConsole = this.toggleConsole.bind(this);
-    this.clearConsole = this.clearConsole.bind(this);
-    this.toggleSettings = this.toggleSettings.bind(this);
-    this.toggleBisectDialog = this.toggleBisectDialog.bind(this);
-    this.updateDownloadProgress = this.updateDownloadProgress.bind(this);
-    this.updateElectronVersions = this.updateElectronVersions.bind(this);
-    this.setIsQuitting = this.setIsQuitting.bind(this);
-    this.addAcceleratorToBlock = this.addAcceleratorToBlock.bind(this);
-    this.removeAcceleratorToBlock = this.removeAcceleratorToBlock.bind(this);
-    this.hideChannels = this.hideChannels.bind(this);
-    this.showChannels = this.showChannels.bind(this);
-    this.changeRunnableState = this.changeRunnableState.bind(this);
-    this.startDownloadingAll = this.startDownloadingAll.bind(this);
-    this.stopDownloadingAll = this.stopDownloadingAll.bind(this);
-    this.startDeletingAll = this.startDeletingAll.bind(this);
-    this.stopDeletingAll = this.stopDeletingAll.bind(this);
-
-    // Populating the current state of every version present
-    versions.forEach((ver: RunnableVersion) => {
-      // A local electron build's `state` is setup in versions.ts
-      if (ver.source !== 'local') {
-        const { version } = ver;
-        ver.state = this.getVersionState(version);
-      }
-    });
-
-    // init fields
-    this.versions = Object.fromEntries(versions.map((v) => [v.version, v]));
-    this.defaultVersion = getDefaultVersion(versions);
-    this.version = this.defaultVersion;
-
-    window.ElectronFiddle.removeAllListeners('before-quit');
-    window.ElectronFiddle.removeAllListeners('toggle-bisect');
-    window.ElectronFiddle.removeAllListeners('clear-console');
-    window.ElectronFiddle.removeAllListeners('open-settings');
-    window.ElectronFiddle.removeAllListeners('show-welcome-tour');
-    window.ElectronFiddle.removeAllListeners('version-download-progress');
-
-    window.ElectronFiddle.addEventListener(
-      'open-settings',
-      this.toggleSettings,
-    );
-    window.ElectronFiddle.addEventListener('show-welcome-tour', this.showTour);
-    window.ElectronFiddle.addEventListener('clear-console', this.clearConsole);
-    window.ElectronFiddle.addEventListener(
-      'toggle-bisect',
-      this.toggleBisectCommands,
-    );
-    window.ElectronFiddle.addEventListener('before-quit', this.setIsQuitting);
-    window.ElectronFiddle.addEventListener(
-      'version-download-progress',
-      this.updateDownloadProgress,
-    );
-
-    /**
-     * Listens for changes in the app settings made in other windows
-     * and refreshes the current window settings accordingly.
-     */
-    window.addEventListener('storage', (event) => {
-      const key = event.key as GlobalSetting;
-      const { newValue } = event;
-
-      let parsedValue: unknown;
-
-      try {
-        parsedValue = JSON.parse(newValue as string) as unknown;
-      } catch {
-        // The new value is a plain string, not a well-formed stringified object.
-        parsedValue = newValue;
-      }
-
-      if (Object.values(GlobalSetting).includes(key)) {
-        switch (key) {
-          case GlobalSetting.theme: {
-            this.setTheme(parsedValue as string);
-            break;
-          }
-
-          case GlobalSetting.hasShownTour: {
-            this['isTourShowing'] = !(parsedValue as boolean);
-            break;
-          }
-
-          // This key is deprecated, so do nothing
-          // These keys are deprecated, so do nothing
-          case GlobalSetting.gitHubToken:
-          case GlobalSetting.knownVersion:
-          case GlobalSetting.localVersion: {
-            break;
-          }
-
-          case GlobalSetting.acceleratorsToBlock:
-          case GlobalSetting.channelsToShow:
-          case GlobalSetting.electronMirror:
-          case GlobalSetting.environmentVariables:
-          case GlobalSetting.executionFlags:
-          case GlobalSetting.fontFamily:
-          case GlobalSetting.fontSize:
-          case GlobalSetting.gitHubLogin:
-          case GlobalSetting.isClearingConsoleOnRun:
-          case GlobalSetting.isEnablingElectronLogging:
-          case GlobalSetting.isKeepingUserDataDirs:
-          case GlobalSetting.isPublishingGistAsRevision:
-          case GlobalSetting.isShowingGistHistory:
-          case GlobalSetting.isUsingSocketFirewall:
-          case GlobalSetting.isUsingSystemTheme:
-          case GlobalSetting.packageAuthor:
-          case GlobalSetting.packageManager:
-          case GlobalSetting.showObsoleteVersions:
-          case GlobalSetting.showUndownloadedVersions: {
-            // Fall back to updating the state.
-            (this[key] as any) = parsedValue;
-            break;
-          }
-
-          default: {
-            this.genericTypeGuard(
-              key,
-              `Unhandled setting "${key}", please handle it in the \`AppState\`.`,
-            );
-          }
-        }
-      } else if (
-        !Object.values(WindowSpecificSetting).includes(
-          key as unknown as WindowSpecificSetting,
-        )
-      ) {
-        console.warn(
-          `"${key}" is not a recognized localStorage key. If you're using this key to persist a setting, please add it to the relevant enum.`,
-        );
-      }
-    });
-
-    /**
-     * Handles communications between windows.
-     */
-    this.broadcastChannel.addEventListener(
-      'message',
-      (event: MessageEvent<AppStateBroadcastMessage>) => {
-        const { type, payload } = event.data;
-
-        switch (type) {
-          case AppStateBroadcastMessageType.isDownloadingAll: {
-            this.isDownloadingAll = payload;
-            break;
-          }
-
-          case AppStateBroadcastMessageType.syncVersions: {
-            this.setVersionStates(payload);
-
-            break;
-          }
-
-          default: {
-            this.genericTypeGuard(
-              type,
-              `Unhandled BroadcastChannel message "${type}", please handle it in the \`AppState\`.`,
-            );
-          }
-        }
-      },
-    );
-
-    // Setup auto-runs
-    autorun(() => this.save(GlobalSetting.theme, this.theme));
-    autorun(() =>
-      this.save(
-        GlobalSetting.isClearingConsoleOnRun,
-        this.isClearingConsoleOnRun,
-      ),
-    );
-    autorun(() =>
-      this.save(GlobalSetting.isUsingSystemTheme, this.isUsingSystemTheme),
-    );
-    autorun(() =>
-      this.save(
-        GlobalSetting.isPublishingGistAsRevision,
-        this.isPublishingGistAsRevision,
-      ),
-    );
-    autorun(() =>
-      this.save(
-        GlobalSetting.isUsingSocketFirewall,
-        this.isUsingSocketFirewall,
-      ),
-    );
-    autorun(() => this.save(GlobalSetting.gitHubLogin, this.gitHubLogin));
-    autorun(() =>
-      this.save(
-        WindowSpecificSetting.gitHubPublishAsPublic,
-        this.gitHubPublishAsPublic,
-      ),
-    );
-    autorun(() =>
-      this.save(
-        GlobalSetting.isKeepingUserDataDirs,
-        this.isKeepingUserDataDirs,
-      ),
-    );
-    autorun(() =>
-      this.save(
-        GlobalSetting.isEnablingElectronLogging,
-        this.isEnablingElectronLogging,
-      ),
-    );
-    autorun(() => this.save(GlobalSetting.executionFlags, this.executionFlags));
-    autorun(() =>
-      this.save(GlobalSetting.environmentVariables, this.environmentVariables),
-    );
-    autorun(() => this.save(WindowSpecificSetting.version, this.version));
-    autorun(() => this.save(GlobalSetting.channelsToShow, this.channelsToShow));
-    autorun(() =>
-      this.save(
-        GlobalSetting.showUndownloadedVersions,
-        this.showUndownloadedVersions,
-      ),
-    );
-    autorun(() =>
-      this.save(GlobalSetting.showObsoleteVersions, this.showObsoleteVersions),
-    );
-    autorun(() =>
-      this.save(GlobalSetting.packageManager, this.packageManager ?? 'npm'),
-    );
-    autorun(() =>
-      this.save(GlobalSetting.acceleratorsToBlock, this.acceleratorsToBlock),
-    );
-    autorun(() => this.save(GlobalSetting.packageAuthor, this.packageAuthor));
-    autorun(() =>
-      this.save(GlobalSetting.isShowingGistHistory, this.isShowingGistHistory),
-    );
-    autorun(() => this.save(GlobalSetting.electronMirror, this.electronMirror));
-    autorun(() => this.save(GlobalSetting.fontFamily, this.fontFamily));
-    autorun(() => this.save(GlobalSetting.fontSize, this.fontSize));
-
-    // Update our known versions
-    this.updateElectronVersions();
-
-    // Make sure the console isn't all empty and sad
-    this.pushOutput('Console ready 🔬');
-
-    // set blocked shortcuts
-    window.ElectronFiddle.blockAccelerators([...this.acceleratorsToBlock]);
-
-    this.setVersion(this.version);
-
-    // Trigger the change state event
-    window.ElectronFiddle.removeAllListeners('version-state-changed');
-    window.ElectronFiddle.addEventListener(
-      'version-state-changed',
-      ({ version, state }) => {
-        this.changeRunnableState(version, state);
-      },
-    );
+      throw new Error("STUB");
   }
 
   /**
    * @returns the title, e.g. appname, fiddle name, state
    */
   get title(): string {
-    return this.editorMosaic.isEdited
-      ? 'Electron Fiddle - Unsaved'
-      : 'Electron Fiddle';
+      throw new Error("STUB");
   }
 
   /**
@@ -578,7 +213,7 @@ export class AppState {
    * one that can be found.
    */
   get currentElectronVersion(): RunnableVersion {
-    return this.versions[this.version] || this.versions[this.defaultVersion];
+      throw new Error("STUB");
   }
 
   /**
@@ -587,34 +222,7 @@ export class AppState {
    * Local builds are always shown and listed before remote versions.
    */
   get versionsToShow(): Array<RunnableVersion> {
-    const {
-      channelsToShow,
-      showObsoleteVersions,
-      showUndownloadedVersions,
-      versions,
-    } = this;
-    const oldest = window.ElectronFiddle.getOldestSupportedMajor();
-
-    const allVersions = Object.values(versions);
-    const localVersions = allVersions.filter(
-      (ver) => ver && ver.source === VersionSource.local,
-    );
-
-    const remoteFilter = (ver: RunnableVersion) =>
-      ver &&
-      ver.source !== VersionSource.local &&
-      (showUndownloadedVersions ||
-        ver.state === InstallState.installing ||
-        ver.state === InstallState.installed ||
-        ver.state === InstallState.downloaded) &&
-      (showObsoleteVersions ||
-        !oldest ||
-        oldest <= Number.parseInt(ver.version)) &&
-      channelsToShow.includes(getReleaseChannel(ver));
-
-    const remoteVersions = sortVersions(allVersions.filter(remoteFilter));
-
-    return [...localVersions, ...remoteVersions];
+      throw new Error("STUB");
   }
 
   /**
@@ -630,8 +238,8 @@ export class AppState {
       const fullVersions = await fetchVersions();
       this.addNewVersions(
         fullVersions
-          .filter((ver) => !(ver.version in this.versions))
-          .map((ver) => makeRunnable(ver)),
+          .filter((ver) => { throw new Error("STUB"); })
+          .map((ver) => { throw new Error("STUB"); }),
       );
     } catch (error) {
       console.warn(`State: Could not update Electron versions`, error);
@@ -671,7 +279,7 @@ export class AppState {
 
   public hideChannels(channels: Array<ElectronReleaseChannel>) {
     this.channelsToShow = this.channelsToShow.filter(
-      (ch) => !channels.includes(ch),
+      (ch) => { throw new Error("STUB"); },
     );
   }
 
@@ -692,10 +300,7 @@ export class AppState {
   }
 
   public toggleBisectCommands() {
-    // guard against hiding the commands when executing a bisect
-    if (!this.Bisector && !this.isBisectDialogShowing) {
-      this.isBisectCommandShowing = !this.isBisectCommandShowing;
-    }
+      throw new Error("STUB");
   }
 
   public toggleAddVersionDialog() {
@@ -711,15 +316,11 @@ export class AppState {
   }
 
   public toggleBisectDialog() {
-    this.isBisectDialogShowing = !this.isBisectDialogShowing;
+      throw new Error("STUB");
   }
 
   public toggleSettings() {
-    // We usually don't lose editor focus,
-    // so you can still type. Let's force-blur.
-    (document.activeElement as HTMLInputElement).blur();
-
-    this.resetView({ isSettingsShowing: !this.isSettingsShowing });
+      throw new Error("STUB");
   }
 
   public toggleHistory() {
@@ -727,20 +328,11 @@ export class AppState {
   }
 
   public updateDownloadProgress(version: string, progress: ProgressObject) {
-    const percent = Math.round(progress.percent * 100) / 100;
-    const ver = this.versions[version];
-    // Stop if its undefined or has same downloadProgress percent
-    if (ver === undefined || ver.downloadProgress === percent) {
-      return;
-    }
-
-    ver.downloadProgress = percent;
-    this.versions[version] = ver;
-    this.broadcastVersionStates([ver]);
+      throw new Error("STUB");
   }
 
   public setIsQuitting() {
-    this.isQuitting = true;
+      throw new Error("STUB");
   }
 
   public disableTour() {
@@ -749,7 +341,7 @@ export class AppState {
   }
 
   public showTour() {
-    this.resetView({ isTourShowing: true });
+      throw new Error("STUB");
   }
 
   public setTheme(fileName: string | null) {
@@ -763,20 +355,7 @@ export class AppState {
   }
 
   public refreshLocalVersions(versions: Version[]) {
-    const localVersions = versions.map((ver) => ver.version);
-
-    // Remove any local versions not in the provided list
-    for (const ver of Object.keys(this.versions)) {
-      if (
-        this.versions[ver].source === VersionSource.local &&
-        !localVersions.includes(ver)
-      ) {
-        delete this.versions[ver];
-      }
-    }
-
-    // Add any new local versions
-    this.addNewVersions(versions.map((ver) => makeRunnable(ver)));
+      throw new Error("STUB");
   }
 
   public addNewVersions(versions: RunnableVersion[]) {
@@ -789,9 +368,7 @@ export class AppState {
 
   // Updates the version states in the current window to reflect updates made by other windows.
   private setVersionStates(versions: RunnableVersion[]) {
-    for (const ver of versions) {
-      this.versions[ver.version] = ver;
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -881,12 +458,7 @@ export class AppState {
    * and triggers a rerun in components
    */
   public changeRunnableState(version: string, state: InstallState) {
-    const ver = this.versions[version];
-    if (ver === undefined) {
-      return;
-    }
-    ver.state = state;
-    this.versions[version] = ver;
+      throw new Error("STUB");
   }
 
   public hasVersion(input: string): boolean {
@@ -928,8 +500,7 @@ export class AppState {
    */
   public findUsableVersion(): RunnableVersion | undefined {
     return this.versionsToShow.find((version) => {
-      const { ver } = this.isVersionUsable(version.version);
-      return !!ver;
+        throw new Error("STUB");
     });
   }
 
@@ -986,8 +557,7 @@ export class AppState {
    * "signed in" indicator.
    */
   public async signOutGitHub(): Promise<void> {
-    await window.ElectronFiddle.gitHubSignOut();
-    this.gitHubLogin = null;
+      throw new Error("STUB");
   }
 
   public async showGenericDialog(
@@ -996,7 +566,7 @@ export class AppState {
     this.genericDialogLastResult = null;
     this.genericDialogOptions = opts;
     this.isGenericDialogShowing = true;
-    await when(() => !this.isGenericDialogShowing);
+    await when(() => { throw new Error("STUB"); });
     return {
       confirm: Boolean(this.genericDialogLastResult),
       input: this.genericDialogLastInput || opts.defaultInput || '',
@@ -1118,7 +688,7 @@ export class AppState {
   public async removeAcceleratorToBlock(acc: BlockableAccelerator) {
     if (this.acceleratorsToBlock.includes(acc)) {
       this.acceleratorsToBlock = this.acceleratorsToBlock.filter(
-        (a) => a !== acc,
+        (a) => { throw new Error("STUB"); },
       );
       window.ElectronFiddle.blockAccelerators([...this.acceleratorsToBlock]);
     }
@@ -1168,7 +738,7 @@ export class AppState {
    * Returns the current state of version passed
    */
   public getVersionState(version: string): InstallState {
-    return window.ElectronFiddle.getVersionState(version);
+      throw new Error("STUB");
   }
 
   /**
@@ -1184,14 +754,7 @@ export class AppState {
       | null
       | boolean,
   ) {
-    if (value !== null && value !== undefined) {
-      const _value =
-        typeof value === 'object' ? JSON.stringify(value) : value.toString();
-
-      localStorage.setItem(key, _value);
-    } else {
-      localStorage.removeItem(key);
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -1200,8 +763,6 @@ export class AppState {
   private retrieve<T>(
     key: GlobalSetting | WindowSpecificSetting,
   ): T | string | null {
-    const value = localStorage.getItem(key);
-
-    return JSON.parse(value || 'null') as T;
+      throw new Error("STUB");
   }
 }

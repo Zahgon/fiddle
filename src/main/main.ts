@@ -44,146 +44,57 @@ import { IpcEvents } from '../ipc-events';
  * the method that takes care of booting the application.
  */
 export async function onReady() {
-  await onFirstRunMaybe();
-
-  setupAboutPanel();
-
-  const { setupMenu } = await import('./menu.js');
-  const { setupFileListeners } = await import('./files.js');
-
-  setupShowWindow();
-  setupMenu();
-  setupMenuHandler();
-  setupProtocolHandler();
-  setupIsolatedActionsProtocol();
-  setupFileListeners();
-  setupUpdates();
-  setupDialogs();
-  setupDevTools();
-  setupTitleBarClickMac();
-  setupNativeTheme();
-  setupTemplates();
-  setupContent();
-  setupThemes();
-  setupIsDevMode();
-  setupNpm();
-  setupGitHub();
-  const knownVersions = await setupVersions();
-  setupGetProjectName();
-  setupGetUsername();
-  setupTypes(knownVersions);
-  await setupFiddleCore(knownVersions);
-  setupAutobisect();
-
-  // Do this after setting everything up to ensure that
-  // any IPC listeners are set up before they're used
-  mainIsReady();
-  await getOrCreateMainWindow();
+    throw new Error("STUB");
 }
 
 /**
  * Handle the "before-quit" event
  */
 export function onBeforeQuit() {
-  ipcMainManager.send(IpcEvents.BEFORE_QUIT);
-  ipcMainManager.on(IpcEvents.CONFIRM_QUIT, app.quit);
+    throw new Error("STUB");
 }
 
 export function setupShowWindow() {
-  ipcMainManager.on(IpcEvents.SHOW_WINDOW, (event: IpcMainEvent) => {
-    const win = BrowserWindow.fromWebContents(event.sender);
-    if (win) {
-      win.show();
-    }
-  });
+    throw new Error("STUB");
 }
 
 export function setupMenuHandler() {
-  ipcMainManager.on(
-    IpcEvents.BLOCK_ACCELERATORS,
-    async (_, acceleratorsToBlock) => {
-      (await import('./menu.js')).setupMenu({
-        acceleratorsToBlock,
-        activeTemplate: null,
-      });
-    },
-  );
-
-  ipcMainManager.on(
-    IpcEvents.SET_SHOW_ME_TEMPLATE,
-    async (_, activeTemplate) => {
-      (await import('./menu.js')).setupMenu({
-        acceleratorsToBlock: [],
-        activeTemplate,
-      });
-    },
-  );
+    throw new Error("STUB");
 }
 
 /**
  * On macOS, set up the custom titlebar click handler.
  */
 export function setupTitleBarClickMac() {
-  if (process.platform !== 'darwin') {
-    return;
-  }
-
-  ipcMainManager.on(IpcEvents.CLICK_TITLEBAR_MAC, (event: IpcMainEvent) => {
-    const doubleClickAction = systemPreferences.getUserDefault(
-      'AppleActionOnDoubleClick',
-      'string',
-    );
-    const win = BrowserWindow.fromWebContents(event.sender);
-    if (win) {
-      if (doubleClickAction === 'Minimize') {
-        win.minimize();
-      } else if (doubleClickAction === 'Maximize') {
-        if (!win.isMaximized()) {
-          win.maximize();
-        } else {
-          win.unmaximize();
-        }
-      }
-    }
-  });
+    throw new Error("STUB");
 }
 
 function isNativeThemeSource(
   val: unknown,
 ): val is typeof nativeTheme.themeSource {
-  return typeof val === 'string' && ['dark', 'light', 'system'].includes(val);
+    throw new Error("STUB");
 }
 
 /**
  * Handle theme changes.
  */
 export function setupNativeTheme() {
-  ipcMainManager.on(IpcEvents.SET_NATIVE_THEME, async (_, source: string) => {
-    if (isNativeThemeSource(source)) {
-      nativeTheme.themeSource = source;
-    }
-  });
+    throw new Error("STUB");
 }
 
 /**
  * Handle isDevMode for renderer.
  */
 export function setupIsDevMode() {
-  ipcMainManager.on(IpcEvents.IS_DEV_MODE, (event) => {
-    event.returnValue = isDevMode();
-  });
+    throw new Error("STUB");
 }
 
 export function setupGetProjectName() {
-  ipcMainManager.handle(IpcEvents.GET_PROJECT_NAME, (_, localPath?: string) =>
-    getProjectName(localPath),
-  );
+    throw new Error("STUB");
 }
 
 export function setupGetUsername() {
-  ipcMainManager.on(IpcEvents.GET_USERNAME, (event) => {
-    event.returnValue = getUsername();
-  });
+    throw new Error("STUB");
 }
 
 /**
@@ -191,11 +102,7 @@ export function setupGetUsername() {
  * macOS.
  */
 export function onWindowsAllClosed() {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+    throw new Error("STUB");
 }
 
 /**
@@ -227,7 +134,7 @@ export function main() {
   app.on('before-quit', onBeforeQuit);
   app.on('window-all-closed', onWindowsAllClosed);
   app.on('activate', () => {
-    app.whenReady().then(getOrCreateMainWindow);
+      throw new Error("STUB");
   });
 }
 

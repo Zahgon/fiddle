@@ -81,31 +81,14 @@ export const AddVersionDialog = observer(
      * Handles a change of the name input
      */
     public onChangeName(event: React.ChangeEvent<HTMLInputElement>) {
-      const name = event.target.value || '';
-      const isValidName = name.trim().length > 0;
-
-      this.setState({
-        name,
-        isValidName,
-      });
+        throw new Error("STUB");
     }
 
     /**
      * Handles the submission of the dialog
      */
     public async onSubmit(): Promise<void> {
-      const { token, name, isValidElectron, existingLocalVersion } = this.state;
-
-      if (!token) return;
-
-      // swap to old local electron version if the user adds a new one with the same path
-      if (isValidElectron && existingLocalVersion?.localPath) {
-        // set previous version as active version
-        this.props.appState.setVersion(existingLocalVersion.version);
-      } else {
-        this.props.appState.addLocalVersion(token, name.trim());
-      }
-      this.onClose();
+        throw new Error("STUB");
     }
 
     /**
@@ -121,34 +104,15 @@ export const AddVersionDialog = observer(
     }
 
     get buttons() {
-      const { isValidElectron, isValidName, existingLocalVersion } = this.state;
-      const canAdd = isValidElectron && isValidName && !existingLocalVersion;
-      const canSwitch = isValidElectron && existingLocalVersion;
-
-      return [
-        <Button
-          icon="add"
-          key="submit"
-          disabled={!canAdd && !canSwitch}
-          onClick={this.onSubmit}
-          text={canSwitch ? 'Switch' : 'Add'}
-        />,
-        <Button
-          icon="cross"
-          key="cancel"
-          onClick={this.onClose}
-          text="Cancel"
-        />,
-      ];
+        throw new Error("STUB");
     }
 
     public render() {
       const { isAddVersionDialogShowing } = this.props.appState;
       const inputProps = {
         onClick: async (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
-          e.preventDefault();
-          await this.selectLocalVersion();
-        },
+              throw new Error("STUB");
+          },
       };
       const { folderPath } = this.state;
 

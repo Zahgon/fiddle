@@ -20,32 +20,7 @@ export enum ForgeCommands {
 
 export class Runner {
   constructor(private readonly appState: AppState) {
-    this.runFiddle = this.runFiddle.bind(this);
-    this.getStartFiddleOptions = this.getStartFiddleOptions.bind(this);
-
-    window.ElectronFiddle.removeAllListeners('run-fiddle');
-    window.ElectronFiddle.removeAllListeners('package-fiddle');
-    window.ElectronFiddle.removeAllListeners('make-fiddle');
-    window.ElectronFiddle.removeAllListeners('is-auto-bisecting');
-
-    window.ElectronFiddle.addEventListener('run-fiddle', this.runFiddle);
-    window.ElectronFiddle.addEventListener('package-fiddle', () => {
-      this.performForgeOperation(ForgeCommands.PACKAGE);
-    });
-    window.ElectronFiddle.addEventListener('make-fiddle', () => {
-      this.performForgeOperation(ForgeCommands.MAKE);
-    });
-    window.ElectronFiddle.addEventListener(
-      'is-auto-bisecting',
-      (isAutoBisecting: boolean) => {
-        this.appState.isAutoBisecting = isAutoBisecting;
-      },
-    );
-
-    window.ElectronFiddle.onGetStartFiddleOptions(this.getStartFiddleOptions);
-    window.ElectronFiddle.onSetVersion((version: string) =>
-      this.appState.setVersion(version),
-    );
+      throw new Error("STUB");
   }
 
   /**
@@ -54,57 +29,7 @@ export class Runner {
   public async performForgeOperation(
     operation: ForgeCommands,
   ): Promise<boolean> {
-    const options = { includeDependencies: true, includeElectron: true };
-    const { pushError, pushOutput } = this.appState;
-
-    const strings =
-      operation === ForgeCommands.MAKE
-        ? ['Creating installers for', 'Binary']
-        : ['Packaging', 'Installers'];
-
-    this.appState.isConsoleShowing = true;
-    pushOutput(`📦 ${strings[0]} current Fiddle...`);
-
-    const packageManager = this.appState.packageManager;
-    const useSocketFirewall = this.appState.isUsingSocketFirewall;
-    const pmInstalled =
-      await window.ElectronFiddle.getIsPackageManagerInstalled(packageManager);
-    if (!pmInstalled) {
-      let message = `Error: Could not find ${packageManager}. Fiddle requires Node.js and npm or yarn `;
-      message += `to compile packages. Please visit https://nodejs.org to install `;
-      message += `Node.js and npm, or https://classic.yarnpkg.com/lang/en/ `;
-      message += `to install Yarn`;
-
-      this.appState.pushOutput(message, { isNotPre: true });
-      return false;
-    }
-
-    // Save files to temp
-    const dir = await this.saveToTemp(options, ['dotfiles', 'forge']);
-    if (!dir) return false;
-
-    // Files are now saved to temp, let's install Forge and dependencies
-    if (
-      !(await this.packageInstall({ dir, packageManager, useSocketFirewall }))
-    )
-      return false;
-
-    // Cool, let's run "package"
-    try {
-      console.log(`Now creating ${strings[1].toLowerCase()}...`);
-      pushOutput(
-        await window.ElectronFiddle.packageRun(
-          { dir, packageManager },
-          operation,
-        ),
-      );
-      pushOutput(`✅ ${strings[1]} successfully created.`, { isNotPre: true });
-    } catch (error: any) {
-      pushError(`Creating ${strings[1].toLowerCase()} failed.`, error);
-      return false;
-    }
-
-    return true;
+      throw new Error("STUB");
   }
 
   public buildChildEnvVars(): { [x: string]: string | undefined } {
@@ -136,68 +61,7 @@ export class Runner {
    * Update the UI for running the fiddle.
    */
   private async runFiddle(): Promise<void> {
-    const { clearConsole, isClearingConsoleOnRun, pushOutput, flushOutput } =
-      this.appState;
-    const currentRunnable = this.appState.currentElectronVersion;
-    const { version, state } = currentRunnable;
-
-    if (isClearingConsoleOnRun) {
-      clearConsole();
-    }
-    this.appState.isConsoleShowing = true;
-
-    const isValidBuild =
-      // Destructure currentRunnable so it's not a Proxy object, which can't be used
-      window.ElectronFiddle.getLocalVersionState({ ...currentRunnable }) ===
-      InstallState.installed;
-
-    const isReady =
-      state === InstallState.installed ||
-      state === InstallState.downloaded ||
-      isValidBuild;
-
-    // TODO(dsanders11) - Should this be moved to main process?
-    if (!isReady) {
-      console.warn(`Runner: Binary ${version} not ready`);
-
-      let message = `Could not start fiddle: `;
-      message += `Electron ${version} not downloaded yet. `;
-      message += `Please wait for it to finish downloading `;
-      message += `before running the fiddle.`;
-
-      pushOutput(message, { isNotPre: true });
-      return;
-    }
-
-    const cleanup = () => {
-      flushOutput();
-      this.appState.isRunning = false;
-    };
-
-    window.ElectronFiddle.removeAllListeners('fiddle-runner-output');
-    window.ElectronFiddle.removeAllListeners('fiddle-modules-installed');
-    window.ElectronFiddle.removeAllListeners('fiddle-stopped');
-
-    window.ElectronFiddle.addEventListener(
-      'fiddle-runner-output',
-      (output: string, options?: { isNotPre?: boolean }) => {
-        pushOutput(output, { ...options, bypassBuffer: false });
-      },
-    );
-
-    window.ElectronFiddle.addEventListener('fiddle-stopped', (code, signal) => {
-      cleanup();
-
-      if (typeof code !== 'number' && typeof signal === 'string') {
-        pushOutput(`Electron exited with signal ${signal}.`);
-      } else if (typeof code === 'number') {
-        pushOutput(`Electron exited with code ${code}.`);
-      } else {
-        pushOutput('Electron exited.');
-      }
-    });
-
-    this.appState.isRunning = true;
+      throw new Error("STUB");
   }
 
   /**
@@ -254,19 +118,7 @@ export class Runner {
     options: PackageJsonOptions,
     transforms?: Array<FileTransformOperation>,
   ): Promise<string | null> {
-    const { fileManager } = window.app;
-    const { pushOutput, pushError } = this.appState;
-
-    try {
-      pushOutput(`Saving files to temp directory...`);
-      const dir = await fileManager.saveToTemp(options, transforms);
-      pushOutput(`Saved files to ${dir}`);
-      return dir;
-    } catch (error: any) {
-      pushError('Failed to save files.', error.message);
-    }
-
-    return null;
+      throw new Error("STUB");
   }
 
   /**
@@ -274,15 +126,6 @@ export class Runner {
    * just running "\{packageManager\} install")
    */
   public async packageInstall(options: PMOperationOptions): Promise<boolean> {
-    const pm = options.packageManager;
-    try {
-      this.appState.pushOutput(`Now running "${pm} install..."`);
-      this.appState.pushOutput(await window.ElectronFiddle.addModules(options));
-      return true;
-    } catch (error: any) {
-      this.appState.pushError(`Failed to run "${pm} install".`, error);
-    }
-
-    return false;
+      throw new Error("STUB");
   }
 }
